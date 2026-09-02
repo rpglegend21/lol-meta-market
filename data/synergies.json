@@ -1,0 +1,187 @@
+{
+  "meta": {
+    "pair_floor": 20,
+    "solo_floor": 40,
+    "n_pairs": 720
+  },
+  "top": [
+    {
+      "c1": "Annie",
+      "c2": "Rakan",
+      "r1": "mid",
+      "r2": "sup",
+      "g": 26,
+      "pair_wr": 88.5,
+      "solo1": 55.1,
+      "solo2": 54.9,
+      "lift": 33.5
+    },
+    {
+      "c1": "Neeko",
+      "c2": "Sylas",
+      "r1": "sup",
+      "r2": "mid",
+      "g": 21,
+      "pair_wr": 76.2,
+      "solo1": 55.6,
+      "solo2": 50.5,
+      "lift": 23.2
+    },
+    {
+      "c1": "Jax",
+      "c2": "Pantheon",
+      "r1": "top",
+      "r2": "jng",
+      "g": 21,
+      "pair_wr": 71.4,
+      "solo1": 51.1,
+      "solo2": 46.4,
+      "lift": 22.7
+    },
+    {
+      "c1": "Aatrox",
+      "c2": "Ahri",
+      "r1": "top",
+      "r2": "mid",
+      "g": 20,
+      "pair_wr": 70.0,
+      "solo1": 49.2,
+      "solo2": 45.6,
+      "lift": 22.6
+    },
+    {
+      "c1": "Orianna",
+      "c2": "Renekton",
+      "r1": "mid",
+      "r2": "top",
+      "g": 24,
+      "pair_wr": 75.0,
+      "solo1": 53.1,
+      "solo2": 55.9,
+      "lift": 20.5
+    },
+    {
+      "c1": "Aurora",
+      "c2": "Trundle",
+      "r1": "mid",
+      "r2": "jng",
+      "g": 22,
+      "pair_wr": 68.2,
+      "solo1": 48.0,
+      "solo2": 48.7,
+      "lift": 19.8
+    },
+    {
+      "c1": "Ezreal",
+      "c2": "Maokai",
+      "r1": "bot",
+      "r2": "jng",
+      "g": 23,
+      "pair_wr": 69.6,
+      "solo1": 49.8,
+      "solo2": 51.2,
+      "lift": 19.1
+    },
+    {
+      "c1": "Annie",
+      "c2": "Wukong",
+      "r1": "mid",
+      "r2": "jng",
+      "g": 49,
+      "pair_wr": 71.4,
+      "solo1": 55.1,
+      "solo2": 51.5,
+      "lift": 18.1
+    },
+    {
+      "c1": "K'Sante",
+      "c2": "Xayah",
+      "r1": "top",
+      "r2": "bot",
+      "g": 25,
+      "pair_wr": 68.0,
+      "solo1": 45.4,
+      "solo2": 54.6,
+      "lift": 18.0
+    },
+    {
+      "c1": "Ornn",
+      "c2": "Wukong",
+      "r1": "top",
+      "r2": "jng",
+      "g": 20,
+      "pair_wr": 70.0,
+      "solo1": 52.5,
+      "solo2": 51.5,
+      "lift": 18.0
+    },
+    {
+      "c1": "Poppy",
+      "c2": "Ryze",
+      "r1": "sup",
+      "r2": "mid",
+      "g": 27,
+      "pair_wr": 74.1,
+      "solo1": 59.6,
+      "solo2": 52.9,
+      "lift": 17.8
+    },
+    {
+      "c1": "Corki",
+      "c2": "Galio",
+      "r1": "bot",
+      "r2": "mid",
+      "g": 22,
+      "pair_wr": 63.6,
+      "solo1": 42.0,
+      "solo2": 49.7,
+      "lift": 17.8
+    }
+  ],
+  "worst": [
+    {
+      "c1": "Aurora",
+      "c2": "Jayce",
+      "r1": "mid",
+      "r2": "top",
+      "g": 25,
+      "pair_wr": 24.0,
+      "solo1": 48.0,
+      "solo2": 48.5,
+      "lift": -24.3
+    },
+    {
+      "c1": "Miss Fortune",
+      "c2": "Pantheon",
+      "r1": "bot",
+      "r2": "jng",
+      "g": 25,
+      "pair_wr": 24.0,
+      "solo1": 47.4,
+      "solo2": 46.4,
+      "lift": -22.9
+    },
+    {
+      "c1": "Orianna",
+      "c2": "Xin Zhao",
+      "r1": "mid",
+      "r2": "jng",
+      "g": 50,
+      "pair_wr": 30.0,
+      "solo1": 53.1,
+      "solo2": 50.7,
+      "lift": -21.9
+    },
+    {
+      "c1": "Skarner",
+      "c2": "Viktor",
+      "r1": "jng",
+      "r2": "mid",
+      "g": 33,
+      "pair_wr": 24.2,
+      "solo1": 47.4,
+      "solo2": 44.4,
+      "lift": -21.7
+    }
+  ]
+}

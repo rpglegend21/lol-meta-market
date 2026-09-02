@@ -1,0 +1,731 @@
+<title>The LoL Meta Market</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  /* light theme = "trading desk on paper" */
+  --ground:#EDF0F6; --surface:#FFFFFF; --surface-2:#F5F7FB; --panel:#FBFCFE;
+  --border:#D5DCEA; --border-strong:#BAC4D8;
+  --ink:#0E1420; --text:#43506B; --dim:#7A879F; --faint:#9AA6BC;
+  --gold:#9A6B12; --gold-bright:#B8841E;
+  --gain:#0E8A5F; --gain-soft:rgba(14,138,95,.12);
+  --loss:#CE3340; --loss-soft:rgba(206,51,64,.12);
+  --sleeper:#2C63C9; --sleeper-soft:rgba(44,99,201,.10);
+  --spec:#8892A6; --spec-soft:rgba(136,146,166,.10);
+  --q-chip:rgba(14,138,95,.055); --q-sleep:rgba(44,99,201,.05);
+  --q-over:rgba(206,51,64,.05); --q-spec:rgba(136,146,166,.05);
+  --grid:rgba(14,20,32,.07);
+  --shadow:0 1px 2px rgba(14,20,32,.06),0 8px 30px rgba(14,20,32,.07);
+  --glow:none;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#080B12; --surface:#0F1522; --surface-2:#141C2C; --panel:#111827;
+  --border:#20293C; --border-strong:#2C384F;
+  --ink:#EAF0FB; --text:#9EAEC8; --dim:#647391; --faint:#4A5670;
+  --gold:#E7B24C; --gold-bright:#F1C266;
+  --gain:#33C48B; --gain-soft:rgba(51,196,139,.14);
+  --loss:#F0616D; --loss-soft:rgba(240,97,109,.15);
+  --sleeper:#5B94FF; --sleeper-soft:rgba(91,148,255,.14);
+  --spec:#7C89A3; --spec-soft:rgba(124,137,163,.12);
+  --q-chip:rgba(51,196,139,.06); --q-sleep:rgba(91,148,255,.06);
+  --q-over:rgba(240,97,109,.055); --q-spec:rgba(124,137,163,.05);
+  --grid:rgba(158,174,200,.09);
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 40px rgba(0,0,0,.5);
+  --glow:0 0 22px rgba(231,178,76,.14);
+}}
+:root[data-theme="dark"]{
+  --ground:#080B12; --surface:#0F1522; --surface-2:#141C2C; --panel:#111827;
+  --border:#20293C; --border-strong:#2C384F;
+  --ink:#EAF0FB; --text:#9EAEC8; --dim:#647391; --faint:#4A5670;
+  --gold:#E7B24C; --gold-bright:#F1C266;
+  --gain:#33C48B; --gain-soft:rgba(51,196,139,.14);
+  --loss:#F0616D; --loss-soft:rgba(240,97,109,.15);
+  --sleeper:#5B94FF; --sleeper-soft:rgba(91,148,255,.14);
+  --spec:#7C89A3; --spec-soft:rgba(124,137,163,.12);
+  --q-chip:rgba(51,196,139,.06); --q-sleep:rgba(91,148,255,.06);
+  --q-over:rgba(240,97,109,.055); --q-spec:rgba(124,137,163,.05);
+  --grid:rgba(158,174,200,.09);
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 40px rgba(0,0,0,.5);
+  --glow:0 0 22px rgba(231,178,76,.14);
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--ground); color:var(--text);
+  font-family:"IBM Plex Sans",system-ui,sans-serif; font-size:16px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px; margin:0 auto; padding:0 22px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums}
+.num{font-family:"IBM Plex Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums}
+
+/* ============ MASTHEAD ============ */
+header.mast{border-bottom:1px solid var(--border-strong); background:linear-gradient(180deg,var(--surface),var(--ground))}
+.mast-top{display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding:9px 0; border-bottom:1px solid var(--border); font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim)}
+.mast-top .sess{display:flex; align-items:center; gap:8px}
+.live-dot{width:7px; height:7px; border-radius:50%; background:var(--gain); box-shadow:0 0 0 0 var(--gain); animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 var(--gain-soft)}70%{box-shadow:0 0 0 7px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.theme-btn{font:inherit; font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--dim);
+  background:transparent; border:1px solid var(--border); border-radius:6px; padding:4px 10px; cursor:pointer}
+.theme-btn:hover{color:var(--ink); border-color:var(--border-strong)}
+.theme-btn:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+
+.mast-main{display:flex; align-items:flex-end; justify-content:space-between; gap:24px; flex-wrap:wrap; padding:26px 0 22px}
+.brand h1{font-family:"Fraunces",Georgia,serif; font-weight:600; font-size:clamp(38px,6.4vw,74px);
+  line-height:.94; letter-spacing:-.02em; color:var(--ink); margin:0; text-wrap:balance}
+.brand h1 .amp{color:var(--gold); font-style:italic; font-weight:500}
+.brand .dek{margin:12px 0 0; max-width:52ch; font-size:15.5px; color:var(--text)}
+.brand .dek b{color:var(--ink); font-weight:600}
+.mast-meta{text-align:right; font-size:12px; color:var(--dim); line-height:1.9; white-space:nowrap}
+.mast-meta .k{color:var(--faint); letter-spacing:.08em; text-transform:uppercase; font-size:10.5px}
+.mast-meta .v{color:var(--ink); font-weight:600}
+
+/* ============ TICKER ============ */
+.ticker{border-top:1px solid var(--border); border-bottom:1px solid var(--border-strong);
+  background:var(--surface-2); overflow:hidden; position:relative}
+.ticker::before,.ticker::after{content:""; position:absolute; top:0; bottom:0; width:60px; z-index:2; pointer-events:none}
+.ticker::before{left:0; background:linear-gradient(90deg,var(--surface-2),transparent)}
+.ticker::after{right:0; background:linear-gradient(270deg,var(--surface-2),transparent)}
+.tick-track{display:inline-flex; gap:0; white-space:nowrap; padding:8px 0; will-change:transform; animation:scroll 64s linear infinite}
+.ticker:hover .tick-track{animation-play-state:paused}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tk{display:inline-flex; align-items:baseline; gap:7px; padding:0 18px; border-right:1px solid var(--border); font-size:12.5px}
+.tk .sym{font-family:"IBM Plex Mono",monospace; font-weight:600; color:var(--ink); letter-spacing:.02em}
+.tk .val{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums}
+.tk .up{color:var(--gain)} .tk .down{color:var(--loss)}
+
+/* ============ SECTIONS ============ */
+section{padding:38px 0}
+.eyebrow{display:flex; align-items:center; gap:12px; font-size:11.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--gold); font-weight:600; margin:0 0 18px}
+.eyebrow::after{content:""; flex:1; height:1px; background:var(--border)}
+h2.sec{font-family:"Fraunces",Georgia,serif; font-weight:600; font-size:clamp(24px,3.4vw,34px);
+  color:var(--ink); margin:0 0 6px; letter-spacing:-.01em; text-wrap:balance}
+.sec-sub{margin:0 0 24px; max-width:66ch; color:var(--text); font-size:15px}
+
+/* ============ SUMMARY TILES ============ */
+.tiles{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1px;
+  background:var(--border); border:1px solid var(--border); border-radius:12px; overflow:hidden; box-shadow:var(--shadow)}
+.tile{background:var(--surface); padding:18px 20px; display:flex; flex-direction:column; gap:5px}
+.tile .lab{font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); display:flex; align-items:center; gap:6px}
+.tile .big{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; font-size:29px; font-weight:600; color:var(--ink); line-height:1.05}
+.tile .big.g{color:var(--gain)} .tile .big.r{color:var(--loss)}
+.tile .big .unit{font-size:.58em; color:var(--dim); font-weight:500; margin-left:1px}
+.tile .cap{font-size:12.5px; color:var(--dim)}
+.tile .cap b{color:var(--text); font-weight:600}
+
+/* ============ MARKET MAP ============ */
+.map-shell{background:var(--surface); border:1px solid var(--border); border-radius:14px; box-shadow:var(--shadow); overflow:hidden}
+.map-bar{display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+  padding:14px 18px; border-bottom:1px solid var(--border); background:var(--panel)}
+.filters{display:flex; gap:6px; flex-wrap:wrap}
+.chip{font:inherit; font-size:12px; letter-spacing:.02em; color:var(--dim); background:transparent;
+  border:1px solid var(--border); border-radius:20px; padding:5px 13px; cursor:pointer; transition:.14s}
+.chip:hover{color:var(--ink); border-color:var(--border-strong)}
+.chip[aria-pressed="true"]{color:var(--ground); background:var(--ink); border-color:var(--ink)}
+.chip:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+.legend{display:flex; gap:16px; align-items:center; font-size:11.5px; color:var(--dim); flex-wrap:wrap}
+.legend .lg{display:inline-flex; align-items:center; gap:6px}
+.legend .dot{width:9px; height:9px; border-radius:50%}
+.legend .dot.g{background:var(--gain)} .legend .dot.r{background:var(--loss)}
+.legend .sz{display:inline-flex; align-items:center; gap:5px}
+.legend .sz i{display:inline-block; border-radius:50%; background:var(--faint)}
+
+.map-area{position:relative; padding:8px}
+svg.map{display:block; width:100%; height:auto; touch-action:pan-y}
+.q-label{font-family:"Fraunces",Georgia,serif; font-weight:600; letter-spacing:.01em}
+.q-tag{font-family:"IBM Plex Mono",monospace; text-transform:uppercase; letter-spacing:.14em}
+.axis-t{font-family:"IBM Plex Mono",monospace; fill:var(--dim)}
+.axis-title{font-family:"IBM Plex Sans",sans-serif; font-weight:600; fill:var(--text)}
+.gridline{stroke:var(--grid); stroke-width:1}
+.split{stroke:var(--border-strong); stroke-width:1.4; stroke-dasharray:5 4}
+.dot-c{cursor:pointer; transition:opacity .15s}
+.dot-lab{font-family:"IBM Plex Mono",monospace; font-size:12px; fill:var(--ink); pointer-events:none; paint-order:stroke; stroke:var(--surface); stroke-width:3px; stroke-linejoin:round}
+
+/* quote card */
+.quote{position:absolute; z-index:5; min-width:210px; max-width:250px; background:var(--surface-2);
+  border:1px solid var(--border-strong); border-radius:11px; box-shadow:var(--shadow); padding:13px 14px;
+  pointer-events:none; opacity:0; transform:translateY(4px); transition:opacity .12s, transform .12s}
+.quote.on{opacity:1; transform:translateY(0)}
+.quote .qh{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:9px}
+.quote .qname{font-family:"Fraunces",serif; font-weight:600; font-size:18px; color:var(--ink); line-height:1}
+.quote .qrole{font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); margin-top:3px}
+.pill{font-family:"IBM Plex Mono",monospace; font-size:9.5px; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+  padding:3px 7px; border-radius:5px; white-space:nowrap}
+.pill.chip-q{color:var(--gain); background:var(--gain-soft)}
+.pill.sleep-q{color:var(--sleeper); background:var(--sleeper-soft)}
+.pill.over-q{color:var(--loss); background:var(--loss-soft)}
+.pill.spec-q{color:var(--spec); background:var(--spec-soft)}
+.quote .qrow{display:flex; justify-content:space-between; font-size:12.5px; padding:3px 0; border-top:1px dotted var(--border)}
+.quote .qrow .qk{color:var(--dim)}
+.quote .qrow .qv{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; color:var(--ink); font-weight:500}
+.quote .qv.g{color:var(--gain)} .quote .qv.r{color:var(--loss)}
+
+/* ============ ANALYST CALLS ============ */
+.calls-note{font-size:12.5px; color:var(--dim); background:var(--gold-soft,transparent); border:1px dashed var(--border-strong);
+  border-radius:9px; padding:10px 14px; margin:0 0 22px}
+.calls-note b{color:var(--gold)}
+.calls{display:grid; grid-template-columns:repeat(auto-fill,minmax(288px,1fr)); gap:16px}
+.call{background:var(--surface); border:1px solid var(--border); border-radius:13px; padding:18px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:12px}
+.call-h{display:flex; align-items:flex-start; justify-content:space-between; gap:12px}
+.call-h .cn{font-family:"Fraunces",serif; font-weight:600; font-size:22px; color:var(--ink); line-height:1}
+.call-h .cr{font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); margin-top:4px}
+.sig{font-family:"IBM Plex Mono",monospace; font-size:12px; font-weight:600; letter-spacing:.08em;
+  padding:5px 10px; border-radius:6px; white-space:nowrap}
+.sig.buy{color:var(--gain); background:var(--gain-soft); border:1px solid var(--gain)}
+.sig.sell{color:var(--loss); background:var(--loss-soft); border:1px solid var(--loss)}
+.sig.hold{color:var(--gold); background:transparent; border:1px solid var(--gold)}
+.sig.avoid{color:var(--spec); background:var(--spec-soft); border:1px solid var(--spec)}
+.call-stats{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border:1px solid var(--border); border-radius:8px; overflow:hidden}
+.call-stats div{background:var(--surface-2); padding:8px 11px}
+.call-stats .cs-k{font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--dim)}
+.call-stats .cs-v{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; font-size:17px; font-weight:600; color:var(--ink)}
+.call-stats .cs-v.g{color:var(--gain)} .call-stats .cs-v.r{color:var(--loss)}
+.call .thesis{font-size:13.5px; color:var(--text); line-height:1.5; margin:0}
+.call .thesis .draft{color:var(--gold); font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase}
+
+/* ============ PLAYER FACTOR ============ */
+.pf-caveat{font-size:12.5px; color:var(--text); border:1px dashed var(--border-strong);
+  border-radius:9px; padding:11px 15px; margin:0 0 24px; background:var(--surface-2)}
+.pf-caveat b{color:var(--gold)}
+.pf-cols{display:grid; grid-template-columns:1.35fr 1fr; gap:30px; align-items:start}
+@media(max-width:860px){.pf-cols{grid-template-columns:1fr; gap:34px}}
+.pf-h3{font-family:"Fraunces",Georgia,serif; font-weight:600; color:var(--ink); font-size:19px; margin:0 0 3px}
+.pf-hint{font-size:12.5px; color:var(--dim); margin:0 0 14px; max-width:52ch}
+.pf-legend{display:flex; gap:16px; font-size:11px; color:var(--dim); margin:0 0 10px}
+.pf-legend i{display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:5px; vertical-align:middle}
+.pf-legend i.f{background:var(--loss)} .pf-legend i.p{background:var(--gain)}
+
+.dumb{display:grid; grid-template-columns:140px 1fr 175px; align-items:center; gap:16px;
+  padding:11px 0; border-bottom:1px solid var(--border)}
+.dumb:last-child{border-bottom:none}
+.dumb-name{font-weight:600; color:var(--ink); font-size:13.5px; line-height:1.15}
+.dumb-name small{display:block; font-family:"IBM Plex Mono",monospace; font-size:10px; color:var(--dim); font-weight:400; letter-spacing:.02em}
+.dumb-track{position:relative; height:30px}
+.dumb-base{position:absolute; top:66%; left:0; right:0; height:1px; background:var(--border)}
+.dumb-line{position:absolute; top:66%; height:3px; transform:translateY(-50%);
+  background:linear-gradient(90deg,var(--loss),var(--gain)); border-radius:2px; opacity:.6}
+.dumb-pt{position:absolute; top:66%; width:11px; height:11px; border-radius:50%;
+  transform:translate(-50%,-50%); border:2px solid var(--surface); box-shadow:0 0 0 1px var(--border)}
+.dumb-pt.field{background:var(--loss)} .dumb-pt.pilot{background:var(--gain)}
+.dumb-lab{position:absolute; top:-1px; font-family:"IBM Plex Mono",monospace; font-size:10.5px;
+  font-variant-numeric:tabular-nums; transform:translateX(-50%); white-space:nowrap}
+.dumb-lab.field{color:var(--loss)} .dumb-lab.pilot{color:var(--gain); font-weight:600}
+.dumb-pilot{text-align:right; font-size:12.5px; line-height:1.25}
+.dumb-pilot b{color:var(--ink); font-weight:600; display:block}
+.dumb-pilot span{font-family:"IBM Plex Mono",monospace; color:var(--dim); font-size:10.5px}
+
+.pf-insight{margin-top:28px; padding:20px 24px; border-left:3px solid var(--gold);
+  background:var(--surface-2); border-radius:0 11px 11px 0}
+.pf-insight h3{font-family:"Fraunces",Georgia,serif; font-weight:600; color:var(--ink); font-size:19px; margin:0 0 10px}
+.pf-insight p{margin:0; color:var(--text); font-size:14.5px; line-height:1.6; max-width:75ch}
+.pf-insight b{color:var(--ink); font-weight:600}
+.pf-insight em{color:var(--gold); font-style:italic}
+
+.sig-list{border:1px solid var(--border); border-radius:11px; overflow:hidden; box-shadow:var(--shadow)}
+.sig-row{display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:10px 15px; border-bottom:1px solid var(--border); background:var(--surface)}
+.sig-row:last-child{border-bottom:none}
+.sig-row:nth-child(even){background:var(--surface-2)}
+.sig-l b{color:var(--ink); font-weight:600; font-size:13.5px}
+.sig-l span{display:block; font-size:11px; color:var(--dim)}
+.sig-l span .ch{color:var(--text); font-weight:500}
+.sig-r{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.sig-r .wr{color:var(--gain); font-weight:600; font-size:15px}
+.sig-r .gp{color:var(--dim); font-size:10.5px}
+
+/* ============ SYNERGIES ============ */
+.syn-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(288px,1fr)); gap:16px}
+.syn{background:var(--surface); border:1px solid var(--border); border-radius:13px; padding:18px;
+  box-shadow:var(--shadow); display:flex; flex-direction:column; gap:14px}
+.syn-h{display:flex; align-items:flex-start; justify-content:space-between; gap:10px}
+.syn-names{font-family:"Fraunces",Georgia,serif; font-weight:600; font-size:20px; color:var(--ink); line-height:1.12}
+.syn-names .plus{color:var(--gold); font-style:italic; padding:0 2px}
+.syn-roles{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); margin-top:5px}
+.syn-lift{font-family:"IBM Plex Mono",monospace; font-size:12px; font-weight:600; color:var(--gain);
+  background:var(--gain-soft); border:1px solid var(--gain); border-radius:6px; padding:4px 9px; white-space:nowrap}
+.syn-flow{display:flex; align-items:center; gap:14px}
+.syn-cell{display:flex; flex-direction:column; gap:3px}
+.syn-cell .v{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; font-weight:600}
+.syn-cell .v.apart{color:var(--dim); font-size:15px}
+.syn-cell .v.tog{color:var(--gain); font-size:25px; line-height:1}
+.syn-cell .v .unit{font-size:.55em; color:var(--dim); margin-left:1px}
+.syn-cell small{font-size:9.5px; letter-spacing:.09em; text-transform:uppercase; color:var(--faint)}
+.syn-arw{color:var(--dim); font-size:18px}
+.syn-g{font-size:11.5px; color:var(--dim); border-top:1px dotted var(--border); padding-top:10px}
+.syn-worst{margin-top:22px; padding:16px 19px; border:1px dashed var(--border-strong); border-radius:10px; background:var(--surface-2)}
+.syn-worst h4{font-size:12.5px; color:var(--ink); margin:0 0 9px; font-weight:600; letter-spacing:.01em}
+.syn-worst .ws{display:flex; flex-wrap:wrap; gap:9px 26px; font-size:12.5px; color:var(--text)}
+.syn-worst .ws b{color:var(--ink); font-weight:600}
+.syn-worst .ws .neg{color:var(--loss); font-family:"IBM Plex Mono",monospace; font-weight:600}
+
+/* ============ TABLE ============ */
+.table-wrap{border:1px solid var(--border); border-radius:12px; overflow:hidden; box-shadow:var(--shadow); background:var(--surface)}
+.table-scroll{overflow-x:auto}
+table{border-collapse:collapse; width:100%; font-size:13.5px; min-width:640px}
+th,td{text-align:right; padding:10px 14px; border-bottom:1px solid var(--border); white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+thead th{position:sticky; top:0; background:var(--panel); color:var(--dim); font-size:10.5px; letter-spacing:.09em;
+  text-transform:uppercase; font-weight:600; cursor:pointer; user-select:none; z-index:1}
+thead th:hover{color:var(--ink)}
+thead th.sorted::after{content:" \25BE"; color:var(--gold)}
+thead th.asc.sorted::after{content:" \25B4"}
+tbody td{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; color:var(--ink)}
+tbody td:first-child{font-family:"IBM Plex Sans",sans-serif; font-weight:600}
+tbody tr:hover td{background:var(--surface-2)}
+td .rl{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--dim); text-transform:uppercase}
+td .g{color:var(--gain)} td .r{color:var(--loss)}
+.mini-sig{font-family:"IBM Plex Mono",monospace; font-size:10px; font-weight:600; letter-spacing:.06em; padding:2px 7px; border-radius:4px}
+.mini-sig.buy{color:var(--gain); background:var(--gain-soft)}
+.mini-sig.sell{color:var(--loss); background:var(--loss-soft)}
+.mini-sig.hold{color:var(--gold); background:transparent; border:1px solid var(--border-strong)}
+.mini-sig.avoid{color:var(--spec); background:var(--spec-soft)}
+
+/* ============ METHODOLOGY / FOOTER ============ */
+.method{background:var(--surface-2); border:1px solid var(--border); border-radius:13px; padding:26px}
+.method h3{font-family:"Fraunces",serif; font-weight:600; color:var(--ink); font-size:19px; margin:0 0 14px}
+.method dl{display:grid; grid-template-columns:auto 1fr; gap:9px 18px; margin:0; font-size:13.5px}
+.method dt{color:var(--gold); font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.04em; text-transform:uppercase; padding-top:2px}
+.method dd{margin:0; color:var(--text)}
+.method dd b{color:var(--ink); font-weight:600}
+.method .formula{font-family:"IBM Plex Mono",monospace; background:var(--ground); border:1px solid var(--border);
+  border-radius:7px; padding:3px 8px; color:var(--ink); font-size:12.5px; display:inline-block; margin:2px 0}
+footer.foot{border-top:1px solid var(--border-strong); padding:26px 0 44px; margin-top:14px;
+  font-size:12px; color:var(--dim); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+footer.foot b{color:var(--text)}
+
+@media (max-width:620px){
+  .mast-meta{text-align:left}
+  .call-stats{grid-template-columns:1fr 1fr}
+  section{padding:30px 0}
+  .dot-lab{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .tick-track{animation:none} .live-dot{animation:none}
+  .dot-c,.quote,.chip{transition:none}
+}
+</style>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="mast-top">
+      <span class="sess"><span class="live-dot" aria-hidden="true"></span> Draft Intelligence Desk</span>
+      <span>Season 2025 · Close of Book</span>
+      <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle color theme">◐ Theme</button>
+    </div>
+    <div class="mast-main">
+      <div class="brand">
+        <h1>The LoL Meta<br>Market</h1>
+        <p class="dek">I pulled every game from 2025's top pro play and scored every champion on two things: how badly teams wanted it (<b>demand</b>), and whether it actually won (<b>value</b>). The champions worth arguing about are the ones where those two don't line up — hype that isn't earned, and quiet picks that are.</p>
+      </div>
+      <div class="mast-meta">
+        <div><span class="k">Index</span> · <span class="v">2025 Pro Champions</span></div>
+        <div><span class="k">Books</span> · <span class="v">LCK · LPL · LEC · LTA · Worlds</span></div>
+        <div><span class="k">Games analyzed</span> · <span class="v" id="mm-games">—</span></div>
+        <div><span class="k">Assets listed</span> · <span class="v" id="mm-assets">—</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="ticker" aria-hidden="true"><div class="tick-track" id="tickTrack"></div></div>
+</header>
+
+<main class="wrap">
+
+  <!-- SUMMARY -->
+  <section aria-labelledby="sum-h">
+    <p class="eyebrow" id="sum-h">Market Summary</p>
+    <div class="tiles" id="tiles"></div>
+  </section>
+
+  <!-- MAP -->
+  <section aria-labelledby="map-h">
+    <p class="eyebrow">The Board</p>
+    <h2 class="sec" id="map-h">The Market Map</h2>
+    <p class="sec-sub">Left to right is demand; bottom to top is win rate. The crosshairs mark the median contest rate and the 50% win line. Where a champion lands is the whole point — top-right is hype that's earned, bottom-right is hype that isn't.</p>
+    <div class="map-shell">
+      <div class="map-bar">
+        <div class="filters" id="filters" role="group" aria-label="Filter by role"></div>
+        <div class="legend">
+          <span class="lg"><span class="dot g"></span>Wins ≥ 50%</span>
+          <span class="lg"><span class="dot r"></span>Wins &lt; 50%</span>
+          <span class="sz"><i style="width:7px;height:7px"></i><i style="width:13px;height:13px"></i> games picked</span>
+        </div>
+      </div>
+      <div class="map-area">
+        <svg class="map" id="map" viewBox="0 0 1040 680" role="img" aria-label="Scatter plot of champion contest rate versus win rate"></svg>
+        <div class="quote" id="quote"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANALYST CALLS -->
+  <section aria-labelledby="calls-h">
+    <p class="eyebrow">The Desk's Position</p>
+    <h2 class="sec" id="calls-h">Analyst Calls</h2>
+    <p class="sec-sub">Six champions where I think the market's mispriced — where I'd buy, where I'd sell, and why.</p>
+    <div class="calls" id="calls"></div>
+  </section>
+
+  <!-- PLAYER FACTOR -->
+  <section aria-labelledby="pf-h">
+    <p class="eyebrow">Beyond the Average</p>
+    <h2 class="sec" id="pf-h">The Player Factor</h2>
+    <p class="sec-sub">A champion's win rate is one number pretending to be the whole story. Split it by <em>who's piloting</em> and it often falls apart — one specialist up at 70–100% sitting on top of a field that loses more than it wins. Balance patches and tier lists that react to the average are reacting to a number that hides the pilot.</p>
+    <p class="pf-caveat"><b>Read this as an argument, not a verdict.</b> Concentration is evidence, not proof — great players earn their comfort picks, strong teams draft to their stars, and these samples are small. This flags where an average is hiding a person; it doesn't prove the champion is weak.</p>
+    <h3 class="pf-h3">Specialists vs. the field</h3>
+    <p class="pf-hint">Each row is one champion: how its <em>best pilot</em> (≥ 12 games) does versus <em>everyone else</em> who played it. The wider the gap, the more the champion's reputation is really one player's. Sorted by gap — the pilot's team is on the right.</p>
+    <div class="pf-legend"><span><i class="f"></i>The field — every other pilot</span><span><i class="p"></i>Top specialist</span></div>
+    <div id="pf-dumb"></div>
+    <div class="pf-insight">
+      <h3>The pattern worth naming</h3>
+      <p>Look at which champions lean hardest on their pilot — Corki, Azir, Gwen, Galio, Gnar. These are the ones I'd call <em>enigmatic</em>: high skill ceiling, weird item scaling, boom-or-bust. That's not a coincidence. <b>Enigmatic = high skill ceiling = pilot-dependent.</b> When a champion's win rate swings 30 points or more depending on who's holding it, you're not measuring the champion anymore — you're measuring the player. Nerf it off the average and you punish everyone <em>except</em> the specialist you were actually worried about. And notice the same names keep coming up — Gen.G especially — so some of this "meta" is just a few rosters being better than everyone else.</p>
+    </div>
+    <div class="pf-insight">
+      <h3>The part the game-design team should care about</h3>
+      <p>This split is cheap. Every pro game is logged and the pilot's name is right there in the row — the data isn't missing, it's buried, averaged away one layer up the pipeline before anyone looks. Balancing around that average isn't a mistake anyone chose; it's what you get when a champion's win rate stays one number and nobody breaks it by who's holding it. The specialist isn't noise to smooth out — they're a signal you already collected and then averaged away. And it's fixable: split win rate by pilot before you aggregate, and <b>"this champion is overpowered"</b> separates cleanly from <b>"this <em>player</em> is"</b> — two different problems, two different patches. The data's been there the whole time. All that's missing is the question.</p>
+    </div>
+  </section>
+
+  <!-- SYNERGIES -->
+  <section aria-labelledby="syn-h2">
+    <p class="eyebrow">The Sum of the Parts</p>
+    <h2 class="sec" id="syn-h2">Draft Synergies</h2>
+    <p class="sec-sub">Champions aren't drafted alone. Some pairs win far above what either is worth on its own — an engage that only works with a follow-up, a setup that needs its payoff. These are the combos where the whole beats the sum of the parts.</p>
+    <p class="pf-caveat"><b>Same rule as the Player Factor: an argument, not proof.</b> Lift compares a pair's win rate to the average of the two champions apart. Strong teams draft these together and good champions co-occur — so read it as "worth a look," not "this pairing causes the wins."</p>
+    <div class="syn-grid" id="syn-grid"></div>
+    <div class="syn-worst" id="syn-worst"></div>
+    <div class="pf-insight">
+      <h3>The pattern under the pairs</h3>
+      <p>The winners share a shape: setup and payoff — Annie's stun and Rakan's dive, Jax and Pantheon trading off who engages and who follows. One makes the opening, the other cashes it, and it runs both directions. But the sharper read is that a pair like this on the board is a <em>choice</em>, not a coincidence. Drafting is a skill: teams force comps they've practiced, or target a pairing the enemy can't play into — good or bad on paper, that's a deliberate lever, not a dice roll. The anti-synergies are murkier, and probably say more about which teams got knocked off their plan than about the champions. Small samples, and the strong pairs get drafted on purpose — which is exactly the point.</p>
+    </div>
+  </section>
+
+  <!-- FULL TABLE -->
+  <section aria-labelledby="tbl-h">
+    <p class="eyebrow">Full Book</p>
+    <h2 class="sec" id="tbl-h">Every Listed Asset</h2>
+    <p class="sec-sub">All <span id="tbl-count">—</span> champions above the sample floor. Click any column to sort.</p>
+    <div class="table-wrap"><div class="table-scroll">
+      <table id="tbl">
+        <thead><tr>
+          <th data-k="champion" class="asc">Champion</th>
+          <th data-k="role">Role</th>
+          <th data-k="contest_rate" class="sorted">Contest %</th>
+          <th data-k="winrate">Win %</th>
+          <th data-k="picks">Picks</th>
+          <th data-k="bans">Bans</th>
+          <th data-k="signal">Signal</th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <!-- METHOD -->
+  <section aria-labelledby="m-h">
+    <p class="eyebrow">Prospectus</p>
+    <h2 class="sec" id="m-h">How the book is priced</h2>
+    <div class="method">
+      <h3>Definitions &amp; universe</h3>
+      <dl>
+        <dt>Demand</dt><dd><b>Contest rate</b> — the share of games where a champion was picked <em>or</em> banned. <span class="formula">contest = (picks + bans) ÷ games</span> A champion appears in a draft at most once, so this is a true rate, not a double-count.</dd>
+        <dt>Value</dt><dd><b>Win rate</b> — games won ÷ games played, when the champion was actually picked.</dd>
+        <dt>Universe</dt><dd>2025 season: <b>LCK, LPL, LEC, LTA (N+S), and Worlds</b>. <span id="m-games">—</span> games. Academy tiers and minor regional leagues excluded.</dd>
+        <dt>Floor</dt><dd>Only champions with <b>≥ <span id="m-floor">15</span> games</b> are listed. That's the honest line between signal and noise: contest rate holds up even at low pick counts because bans carry it, but a win rate needs volume — which is why every call I actually make sits on hundreds of games, not fifteen. Below the floor, a win rate is a rumor.</dd>
+        <dt>Quadrants</dt><dd>Split at the <b>median contest rate (<span id="m-line">—</span>%)</b> and the <b>50% win line</b>. Blue Chip = high demand + wins; Overvalued = high demand + loses; Sleeper = low demand + wins; Speculative = low demand + loses.</dd>
+        <dt>Caveat</dt><dd>A full season spans many patches, so this is a <b>season-level average</b>, not a snapshot of today's meta. Contest ≠ causation — a champion can win because good teams draft it, not the reverse.</dd>
+        <dt>Source</dt><dd>Oracle's Elixir 2025 match data. Built on a DuckDB pipeline over ~120k rows of draft data.</dd>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<footer class="foot wrap">
+  <span>The LoL Meta Market · <b>2025 Pro Champion Index</b></span>
+  <span>Adoption vs. performance · a product-judgment study</span>
+</footer>
+
+<script>
+const PAYLOAD = {"meta":{"season":"2025","leagues":["LCK","LPL","LEC","LTA N","LTA S","WLDs"],"total_games":2198,"pick_floor":15,"contest_line":14.4,"winrate_line":50.0,"n_champions":106},"champions":[{"champion":"Varus","role":"bot","picks":491,"bans":913,"contest":1404,"contest_rate":63.9,"winrate":55.6},{"champion":"Vi","role":"jng","picks":434,"bans":927,"contest":1361,"contest_rate":61.9,"winrate":50.0},{"champion":"Azir","role":"mid","picks":426,"bans":833,"contest":1259,"contest_rate":57.3,"winrate":48.1},{"champion":"Rumble","role":"top","picks":577,"bans":649,"contest":1226,"contest_rate":55.8,"winrate":53.6},{"champion":"Poppy","role":"sup","picks":332,"bans":805,"contest":1137,"contest_rate":51.7,"winrate":59.6},{"champion":"Gwen","role":"top","picks":335,"bans":790,"contest":1125,"contest_rate":51.2,"winrate":49.9},{"champion":"Taliyah","role":"mid","picks":544,"bans":534,"contest":1078,"contest_rate":49.0,"winrate":53.5},{"champion":"Yone","role":"mid","picks":292,"bans":743,"contest":1035,"contest_rate":47.1,"winrate":56.8},{"champion":"Alistar","role":"sup","picks":596,"bans":438,"contest":1034,"contest_rate":47.0,"winrate":52.9},{"champion":"Kalista","role":"bot","picks":182,"bans":829,"contest":1011,"contest_rate":46.0,"winrate":59.3},{"champion":"Pantheon","role":"jng","picks":375,"bans":611,"contest":986,"contest_rate":44.9,"winrate":46.4},{"champion":"Neeko","role":"sup","picks":340,"bans":607,"contest":947,"contest_rate":43.1,"winrate":55.6},{"champion":"Rakan","role":"sup","picks":503,"bans":387,"contest":890,"contest_rate":40.5,"winrate":54.9},{"champion":"Ambessa","role":"top","picks":518,"bans":361,"contest":879,"contest_rate":40.0,"winrate":45.2},{"champion":"Ezreal","role":"bot","picks":482,"bans":397,"contest":879,"contest_rate":40.0,"winrate":49.8},{"champion":"Xin Zhao","role":"jng","picks":655,"bans":217,"contest":872,"contest_rate":39.7,"winrate":50.7},{"champion":"Skarner","role":"jng","picks":291,"bans":542,"contest":833,"contest_rate":37.9,"winrate":47.4},{"champion":"Kai'Sa","role":"bot","picks":443,"bans":387,"contest":830,"contest_rate":37.8,"winrate":52.6},{"champion":"Jayce","role":"top","picks":328,"bans":467,"contest":795,"contest_rate":36.2,"winrate":48.5},{"champion":"Aurora","role":"mid","picks":408,"bans":383,"contest":791,"contest_rate":36.0,"winrate":48.0},{"champion":"Nautilus","role":"sup","picks":445,"bans":329,"contest":774,"contest_rate":35.2,"winrate":44.0},{"champion":"Rell","role":"sup","picks":592,"bans":174,"contest":766,"contest_rate":34.8,"winrate":48.6},{"champion":"Corki","role":"bot","picks":500,"bans":218,"contest":718,"contest_rate":32.7,"winrate":42.0},{"champion":"Wukong","role":"jng","picks":429,"bans":284,"contest":713,"contest_rate":32.4,"winrate":51.5},{"champion":"Braum","role":"sup","picks":381,"bans":310,"contest":691,"contest_rate":31.4,"winrate":49.3},{"champion":"Sion","role":"top","picks":405,"bans":247,"contest":652,"contest_rate":29.7,"winrate":50.9},{"champion":"Sejuani","role":"jng","picks":382,"bans":250,"contest":632,"contest_rate":28.8,"winrate":44.8},{"champion":"Ryze","role":"mid","picks":376,"bans":221,"contest":597,"contest_rate":27.2,"winrate":52.9},{"champion":"Galio","role":"mid","picks":318,"bans":264,"contest":582,"contest_rate":26.5,"winrate":49.7},{"champion":"Orianna","role":"mid","picks":307,"bans":256,"contest":563,"contest_rate":25.6,"winrate":53.1},{"champion":"Miss Fortune","role":"bot","picks":327,"bans":224,"contest":551,"contest_rate":25.1,"winrate":47.4},{"champion":"Renekton","role":"top","picks":295,"bans":256,"contest":551,"contest_rate":25.1,"winrate":55.9},{"champion":"Lucian","role":"bot","picks":246,"bans":284,"contest":530,"contest_rate":24.1,"winrate":45.9},{"champion":"K'Sante","role":"top","picks":348,"bans":180,"contest":528,"contest_rate":24.0,"winrate":45.4},{"champion":"Leona","role":"sup","picks":387,"bans":137,"contest":524,"contest_rate":23.8,"winrate":44.2},{"champion":"Trundle","role":"jng","picks":228,"bans":293,"contest":521,"contest_rate":23.7,"winrate":48.7},{"champion":"Viktor","role":"mid","picks":311,"bans":206,"contest":517,"contest_rate":23.5,"winrate":44.4},{"champion":"Naafiri","role":"jng","picks":233,"bans":279,"contest":512,"contest_rate":23.3,"winrate":51.5},{"champion":"Xayah","role":"bot","picks":280,"bans":218,"contest":498,"contest_rate":22.7,"winrate":54.6},{"champion":"Ahri","role":"mid","picks":342,"bans":157,"contest":499,"contest_rate":22.7,"winrate":45.6},{"champion":"Jhin","role":"bot","picks":347,"bans":147,"contest":494,"contest_rate":22.5,"winrate":44.7},{"champion":"Annie","role":"mid","picks":236,"bans":244,"contest":480,"contest_rate":21.8,"winrate":55.1},{"champion":"Yunara","role":"bot","picks":124,"bans":349,"contest":473,"contest_rate":21.5,"winrate":54.8},{"champion":"Jax","role":"top","picks":221,"bans":217,"contest":438,"contest_rate":19.9,"winrate":51.1},{"champion":"Maokai","role":"jng","picks":205,"bans":224,"contest":429,"contest_rate":19.5,"winrate":51.2},{"champion":"Sylas","role":"mid","picks":218,"bans":198,"contest":416,"contest_rate":18.9,"winrate":50.5},{"champion":"Nocturne","role":"jng","picks":149,"bans":257,"contest":406,"contest_rate":18.5,"winrate":46.3},{"champion":"Sivir","role":"bot","picks":225,"bans":182,"contest":407,"contest_rate":18.5,"winrate":53.3},{"champion":"Renata Glasc","role":"sup","picks":201,"bans":199,"contest":400,"contest_rate":18.2,"winrate":53.2},{"champion":"Ashe","role":"bot","picks":176,"bans":221,"contest":397,"contest_rate":18.1,"winrate":48.3},{"champion":"Akali","role":"mid","picks":162,"bans":178,"contest":340,"contest_rate":15.5,"winrate":46.3},{"champion":"Jarvan IV","role":"jng","picks":205,"bans":129,"contest":334,"contest_rate":15.2,"winrate":56.1},{"champion":"Yorick","role":"top","picks":202,"bans":126,"contest":328,"contest_rate":14.9,"winrate":47.0},{"champion":"Gnar","role":"top","picks":184,"bans":120,"contest":304,"contest_rate":13.8,"winrate":48.9},{"champion":"Bard","role":"sup","picks":151,"bans":153,"contest":304,"contest_rate":13.8,"winrate":44.4},{"champion":"Karma","role":"sup","picks":132,"bans":143,"contest":275,"contest_rate":12.5,"winrate":53.0},{"champion":"Ornn","role":"top","picks":177,"bans":97,"contest":274,"contest_rate":12.5,"winrate":52.5},{"champion":"Lillia","role":"jng","picks":128,"bans":133,"contest":261,"contest_rate":11.9,"winrate":54.7},{"champion":"Ziggs","role":"bot","picks":119,"bans":125,"contest":244,"contest_rate":11.1,"winrate":51.3},{"champion":"Senna","role":"bot","picks":118,"bans":115,"contest":233,"contest_rate":10.6,"winrate":48.3},{"champion":"Nidalee","role":"jng","picks":116,"bans":114,"contest":230,"contest_rate":10.5,"winrate":58.6},{"champion":"Aatrox","role":"top","picks":183,"bans":39,"contest":222,"contest_rate":10.1,"winrate":49.2},{"champion":"Zyra","role":"jng","picks":80,"bans":141,"contest":221,"contest_rate":10.1,"winrate":45.0},{"champion":"Caitlyn","role":"bot","picks":92,"bans":114,"contest":206,"contest_rate":9.4,"winrate":55.4},{"champion":"Lulu","role":"sup","picks":89,"bans":100,"contest":189,"contest_rate":8.6,"winrate":48.3},{"champion":"Viego","role":"jng","picks":127,"bans":59,"contest":186,"contest_rate":8.5,"winrate":44.1},{"champion":"Zeri","role":"bot","picks":131,"bans":52,"contest":183,"contest_rate":8.3,"winrate":47.3},{"champion":"Elise","role":"sup","picks":73,"bans":82,"contest":155,"contest_rate":7.1,"winrate":46.6},{"champion":"Tristana","role":"mid","picks":94,"bans":53,"contest":147,"contest_rate":6.7,"winrate":46.8},{"champion":"Jinx","role":"bot","picks":100,"bans":46,"contest":146,"contest_rate":6.6,"winrate":54.0},{"champion":"Lee Sin","role":"jng","picks":88,"bans":52,"contest":140,"contest_rate":6.4,"winrate":53.4},{"champion":"Draven","role":"bot","picks":36,"bans":101,"contest":137,"contest_rate":6.2,"winrate":44.4},{"champion":"Camille","role":"top","picks":78,"bans":42,"contest":120,"contest_rate":5.5,"winrate":60.3},{"champion":"Hwei","role":"mid","picks":74,"bans":35,"contest":109,"contest_rate":5.0,"winrate":48.6},{"champion":"Gragas","role":"top","picks":81,"bans":24,"contest":105,"contest_rate":4.8,"winrate":50.6},{"champion":"Smolder","role":"bot","picks":69,"bans":35,"contest":104,"contest_rate":4.7,"winrate":39.1},{"champion":"Cassiopeia","role":"mid","picks":52,"bans":49,"contest":101,"contest_rate":4.6,"winrate":51.9},{"champion":"Qiyana","role":"jng","picks":33,"bans":67,"contest":100,"contest_rate":4.5,"winrate":48.5},{"champion":"Ivern","role":"jng","picks":34,"bans":53,"contest":87,"contest_rate":4.0,"winrate":55.9},{"champion":"LeBlanc","role":"mid","picks":31,"bans":56,"contest":87,"contest_rate":4.0,"winrate":51.6},{"champion":"Blitzcrank","role":"sup","picks":45,"bans":38,"contest":83,"contest_rate":3.8,"winrate":53.3},{"champion":"Nami","role":"sup","picks":67,"bans":5,"contest":72,"contest_rate":3.3,"winrate":41.8},{"champion":"Shen","role":"top","picks":38,"bans":33,"contest":71,"contest_rate":3.2,"winrate":34.2},{"champion":"Zed","role":"jng","picks":40,"bans":19,"contest":59,"contest_rate":2.7,"winrate":50.0},{"champion":"Aphelios","role":"bot","picks":48,"bans":12,"contest":60,"contest_rate":2.7,"winrate":39.6},{"champion":"Cho'Gath","role":"top","picks":49,"bans":9,"contest":58,"contest_rate":2.6,"winrate":51.0},{"champion":"Olaf","role":"top","picks":26,"bans":24,"contest":50,"contest_rate":2.3,"winrate":46.2},{"champion":"Twisted Fate","role":"mid","picks":26,"bans":21,"contest":47,"contest_rate":2.1,"winrate":53.8},{"champion":"Mel","role":"mid","picks":20,"bans":25,"contest":45,"contest_rate":2.0,"winrate":40.0},{"champion":"Kindred","role":"jng","picks":17,"bans":27,"contest":44,"contest_rate":2.0,"winrate":41.2},{"champion":"Syndra","role":"mid","picks":26,"bans":17,"contest":43,"contest_rate":2.0,"winrate":53.8},{"champion":"Udyr","role":"top","picks":24,"bans":18,"contest":42,"contest_rate":1.9,"winrate":37.5},{"champion":"Yasuo","role":"mid","picks":20,"bans":15,"contest":35,"contest_rate":1.6,"winrate":40.0},{"champion":"Kennen","role":"top","picks":23,"bans":11,"contest":34,"contest_rate":1.5,"winrate":65.2},{"champion":"Thresh","role":"sup","picks":22,"bans":12,"contest":34,"contest_rate":1.5,"winrate":45.5},{"champion":"Seraphine","role":"sup","picks":25,"bans":9,"contest":34,"contest_rate":1.5,"winrate":40.0},{"champion":"Rek'Sai","role":"top","picks":28,"bans":5,"contest":33,"contest_rate":1.5,"winrate":53.6},{"champion":"Pyke","role":"sup","picks":19,"bans":15,"contest":34,"contest_rate":1.5,"winrate":57.9},{"champion":"Volibear","role":"jng","picks":20,"bans":13,"contest":33,"contest_rate":1.5,"winrate":55.0},{"champion":"Mordekaiser","role":"top","picks":20,"bans":11,"contest":31,"contest_rate":1.4,"winrate":50.0},{"champion":"Dr. Mundo","role":"jng","picks":20,"bans":8,"contest":28,"contest_rate":1.3,"winrate":60.0},{"champion":"Sett","role":"sup","picks":15,"bans":11,"contest":26,"contest_rate":1.2,"winrate":60.0},{"champion":"Tahm Kench","role":"sup","picks":15,"bans":8,"contest":23,"contest_rate":1.0,"winrate":33.3},{"champion":"Milio","role":"sup","picks":20,"bans":2,"contest":22,"contest_rate":1.0,"winrate":30.0},{"champion":"Vladimir","role":"top","picks":16,"bans":2,"contest":18,"contest_rate":0.8,"winrate":37.5},{"champion":"Swain","role":"mid","picks":15,"bans":3,"contest":18,"contest_rate":0.8,"winrate":66.7}]};
+const PF = {"meta":{"champ_floor":40,"pilot_floor":12,"sig_floor":14},"specialists":[{"champion":"Gnar","picks":184,"overall_wr":48.9,"pilot":"369","team":"Top Esports","pilot_g":14,"pilot_wr":100.0,"field_g":170,"field_wr":44.7,"gap":55.3},{"champion":"Sivir","picks":225,"overall_wr":53.3,"pilot":"Hope","team":"Anyone's Legend","pilot_g":12,"pilot_wr":91.7,"field_g":213,"field_wr":51.2,"gap":40.5},{"champion":"Corki","picks":500,"overall_wr":42.0,"pilot":"Ruler","team":"Gen.G","pilot_g":16,"pilot_wr":81.2,"field_g":484,"field_wr":40.7,"gap":40.5},{"champion":"Alistar","picks":596,"overall_wr":52.9,"pilot":"Ackerman","team":"Isurus Estral","pilot_g":12,"pilot_wr":91.7,"field_g":584,"field_wr":52.1,"gap":39.6},{"champion":"Ahri","picks":342,"overall_wr":45.6,"pilot":"Chovy","team":"Gen.G","pilot_g":12,"pilot_wr":83.3,"field_g":330,"field_wr":44.2,"gap":39.1},{"champion":"Gwen","picks":335,"overall_wr":49.9,"pilot":"Kiin","team":"Gen.G","pilot_g":21,"pilot_wr":85.7,"field_g":314,"field_wr":47.5,"gap":38.3},{"champion":"Galio","picks":318,"overall_wr":49.7,"pilot":"Chovy","team":"Gen.G","pilot_g":20,"pilot_wr":85.0,"field_g":298,"field_wr":47.3,"gap":37.7},{"champion":"Pantheon","picks":375,"overall_wr":46.4,"pilot":"Tarzan","team":"Anyone's Legend","pilot_g":17,"pilot_wr":82.4,"field_g":358,"field_wr":44.7,"gap":37.7},{"champion":"Nocturne","picks":149,"overall_wr":46.3,"pilot":"Oner","team":"T1","pilot_g":15,"pilot_wr":80.0,"field_g":134,"field_wr":42.5,"gap":37.5},{"champion":"Wukong","picks":429,"overall_wr":51.5,"pilot":"Canyon","team":"Gen.G","pilot_g":15,"pilot_wr":86.7,"field_g":414,"field_wr":50.2,"gap":36.4},{"champion":"Azir","picks":426,"overall_wr":48.1,"pilot":"Faker","team":"T1","pilot_g":12,"pilot_wr":83.3,"field_g":414,"field_wr":47.1,"gap":36.2},{"champion":"Viktor","picks":311,"overall_wr":44.4,"pilot":"Vladi","team":"Karmine Corp","pilot_g":14,"pilot_wr":78.6,"field_g":297,"field_wr":42.8,"gap":35.8},{"champion":"Varus","picks":491,"overall_wr":55.6,"pilot":"JackeyLove","team":"Top Esports","pilot_g":19,"pilot_wr":89.5,"field_g":472,"field_wr":54.2,"gap":35.2},{"champion":"Yorick","picks":202,"overall_wr":47.0,"pilot":"Bin","team":"Bilibili Gaming","pilot_g":18,"pilot_wr":77.8,"field_g":184,"field_wr":44.0,"gap":33.8},{"champion":"Vi","picks":434,"overall_wr":50.0,"pilot":"Canyon","team":"Gen.G","pilot_g":17,"pilot_wr":82.4,"field_g":417,"field_wr":48.7,"gap":33.7},{"champion":"Naafiri","picks":233,"overall_wr":51.5,"pilot":"Tarzan","team":"Anyone's Legend","pilot_g":12,"pilot_wr":83.3,"field_g":221,"field_wr":49.8,"gap":33.6}],"signature":[{"pilot":"369","champion":"Gnar","team":"Top Esports","g":14,"wr":100.0},{"pilot":"JackeyLove","champion":"Varus","team":"Top Esports","g":19,"wr":89.5},{"pilot":"GALA","champion":"Varus","team":"Invictus Gaming","g":17,"wr":88.2},{"pilot":"ON","champion":"Neeko","team":"Bilibili Gaming","g":16,"wr":87.5},{"pilot":"Canyon","champion":"Wukong","team":"Gen.G","g":15,"wr":86.7},{"pilot":"Kiin","champion":"Gwen","team":"Gen.G","g":21,"wr":85.7},{"pilot":"Chovy","champion":"Galio","team":"Gen.G","g":20,"wr":85.0},{"pilot":"Canyon","champion":"Vi","team":"Gen.G","g":17,"wr":82.4},{"pilot":"Tarzan","champion":"Pantheon","team":"Anyone's Legend","g":17,"wr":82.4},{"pilot":"Zeka","champion":"Taliyah","team":"Hanwha Life Esports","g":17,"wr":82.4},{"pilot":"Ruler","champion":"Corki","team":"Gen.G","g":16,"wr":81.2},{"pilot":"Duro","champion":"Rell","team":"Gen.G","g":16,"wr":81.2},{"pilot":"Canyon","champion":"Xin Zhao","team":"Gen.G","g":25,"wr":80.0},{"pilot":"Creme","champion":"Ryze","team":"Top Esports","g":20,"wr":80.0}]};
+const SYN = {"meta":{"pair_floor":20,"solo_floor":40,"n_pairs":720},"top":[{"c1":"Annie","c2":"Rakan","r1":"mid","r2":"sup","g":26,"pair_wr":88.5,"solo1":55.1,"solo2":54.9,"lift":33.5},{"c1":"Neeko","c2":"Sylas","r1":"sup","r2":"mid","g":21,"pair_wr":76.2,"solo1":55.6,"solo2":50.5,"lift":23.2},{"c1":"Jax","c2":"Pantheon","r1":"top","r2":"jng","g":21,"pair_wr":71.4,"solo1":51.1,"solo2":46.4,"lift":22.7},{"c1":"Aatrox","c2":"Ahri","r1":"top","r2":"mid","g":20,"pair_wr":70.0,"solo1":49.2,"solo2":45.6,"lift":22.6},{"c1":"Orianna","c2":"Renekton","r1":"mid","r2":"top","g":24,"pair_wr":75.0,"solo1":53.1,"solo2":55.9,"lift":20.5},{"c1":"Aurora","c2":"Trundle","r1":"mid","r2":"jng","g":22,"pair_wr":68.2,"solo1":48.0,"solo2":48.7,"lift":19.8},{"c1":"Ezreal","c2":"Maokai","r1":"bot","r2":"jng","g":23,"pair_wr":69.6,"solo1":49.8,"solo2":51.2,"lift":19.1},{"c1":"Annie","c2":"Wukong","r1":"mid","r2":"jng","g":49,"pair_wr":71.4,"solo1":55.1,"solo2":51.5,"lift":18.1},{"c1":"K'Sante","c2":"Xayah","r1":"top","r2":"bot","g":25,"pair_wr":68.0,"solo1":45.4,"solo2":54.6,"lift":18.0},{"c1":"Ornn","c2":"Wukong","r1":"top","r2":"jng","g":20,"pair_wr":70.0,"solo1":52.5,"solo2":51.5,"lift":18.0},{"c1":"Poppy","c2":"Ryze","r1":"sup","r2":"mid","g":27,"pair_wr":74.1,"solo1":59.6,"solo2":52.9,"lift":17.8},{"c1":"Corki","c2":"Galio","r1":"bot","r2":"mid","g":22,"pair_wr":63.6,"solo1":42.0,"solo2":49.7,"lift":17.8}],"worst":[{"c1":"Aurora","c2":"Jayce","r1":"mid","r2":"top","g":25,"pair_wr":24.0,"solo1":48.0,"solo2":48.5,"lift":-24.3},{"c1":"Miss Fortune","c2":"Pantheon","r1":"bot","r2":"jng","g":25,"pair_wr":24.0,"solo1":47.4,"solo2":46.4,"lift":-22.9},{"c1":"Orianna","c2":"Xin Zhao","r1":"mid","r2":"jng","g":50,"pair_wr":30.0,"solo1":53.1,"solo2":50.7,"lift":-21.9},{"c1":"Skarner","c2":"Viktor","r1":"jng","r2":"mid","g":33,"pair_wr":24.2,"solo1":47.4,"solo2":44.4,"lift":-21.7}]};
+const M = PAYLOAD.meta, DATA = PAYLOAD.champions;
+const CLINE = M.contest_line, WLINE = M.winrate_line;
+const $ = s => document.querySelector(s);
+
+/* ---- classification ---- */
+const ROLE_LABEL = {top:"Top", jng:"Jungle", mid:"Mid", bot:"Bot", sup:"Support"};
+function quad(c){
+  const hi = c.contest_rate >= CLINE, val = c.winrate >= WLINE;
+  if(hi && val) return {key:"chip", name:"Blue Chip", cls:"chip-q", sig:"HOLD", sigcls:"hold"};
+  if(!hi && val) return {key:"sleep", name:"Sleeper", cls:"sleep-q", sig:"BUY", sigcls:"buy"};
+  if(hi && !val) return {key:"over", name:"Overvalued", cls:"over-q", sig:"SELL", sigcls:"sell"};
+  return {key:"spec", name:"Speculative", cls:"spec-q", sig:"AVOID", sigcls:"avoid"};
+}
+DATA.forEach(c => { c.q = quad(c); });
+
+/* ---- header numbers ---- */
+$("#mm-games").textContent = M.total_games.toLocaleString();
+$("#mm-assets").textContent = M.n_champions;
+$("#m-games").textContent = M.total_games.toLocaleString();
+$("#m-floor").textContent = M.pick_floor;
+$("#m-line").textContent = CLINE;
+$("#tbl-count").textContent = M.n_champions;
+
+/* ---- ticker ---- */
+(function(){
+  const top = [...DATA].sort((a,b)=>b.contest_rate-a.contest_rate).slice(0,26);
+  const cell = c => {
+    const up = c.winrate >= 50;
+    return `<span class="tk"><span class="sym">${c.champion.toUpperCase()}</span>`+
+      `<span class="val ${up?'up':'down'}">${up?'▲':'▼'}${c.winrate.toFixed(1)}</span></span>`;
+  };
+  $("#tickTrack").innerHTML = (top.map(cell).join("")).repeat(2);
+})();
+
+/* ---- summary tiles ---- */
+(function(){
+  const byContest = [...DATA].sort((a,b)=>b.contest_rate-a.contest_rate);
+  const most = byContest[0];
+  const highDemand = DATA.filter(c=>c.contest_rate>=CLINE);
+  const topPerf = [...highDemand].sort((a,b)=>b.winrate-a.winrate)[0];
+  const trap = [...highDemand].sort((a,b)=>a.winrate-b.winrate)[0];
+  // most feared = biggest ban:pick skew with real volume
+  const feared = [...DATA].filter(c=>c.contest>=300).sort((a,b)=>(b.bans/b.picks)-(a.bans/a.picks))[0];
+  const tiles = [
+    {lab:"Games Analyzed", big:M.total_games.toLocaleString(), cls:"", cap:"2025 · majors + Worlds"},
+    {lab:"Most Contested", big:most.contest_rate.toFixed(1)+"%", cls:"", cap:`<b>${most.champion}</b> · picked or banned`},
+    {lab:"Top Performer ▸ in demand", big:topPerf.winrate.toFixed(1)+"%", cls:"g", cap:`<b>${topPerf.champion}</b> · ${topPerf.contest_rate.toFixed(0)}% contest`},
+    {lab:"Biggest Trap ▸ in demand", big:trap.winrate.toFixed(1)+"%", cls:"r", cap:`<b>${trap.champion}</b> · ${trap.contest_rate.toFixed(0)}% contest, still loses`},
+    {lab:"Most Feared", big:(feared.bans/feared.picks).toFixed(1)+"×", cls:"", cap:`<b>${feared.champion}</b> · banned ${feared.bans} / picked ${feared.picks}`},
+  ];
+  $("#tiles").innerHTML = tiles.map(t=>
+    `<div class="tile"><span class="lab">${t.lab}</span>`+
+    `<span class="big ${t.cls}">${t.big.replace(/([%×])$/,'<span class="unit">$1</span>')}</span><span class="cap">${t.cap}</span></div>`).join("");
+})();
+
+/* ---- MARKET MAP ---- */
+const SVG="http://www.w3.org/2000/svg";
+const VB={w:1040,h:680}, PAD={l:74,r:28,t:54,b:62};
+const X={min:0,max:70}, Y={min:30,max:66};
+const px=v=>PAD.l+(v-X.min)/(X.max-X.min)*(VB.w-PAD.l-PAD.r);
+const py=v=>PAD.t+(1-(v-Y.min)/(Y.max-Y.min))*(VB.h-PAD.t-PAD.b);
+const rad=p=>3+Math.sqrt(p/625)*11.5;
+const FEATURED=new Set(["Varus","Vi","Poppy","Kalista","Azir","Rumble","Nautilus","Corki","Ambessa","Caitlyn","Camille","Xin Zhao","Rell"]);
+let activeRole="all";
+
+function el(tag,attrs){const e=document.createElementNS(SVG,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);return e;}
+
+function drawMap(){
+  const svg=$("#map"); svg.innerHTML="";
+  const x0=px(X.min),x1=px(X.max),y0=py(Y.min),y1=py(Y.max);
+  // quadrant background tints
+  const xs=px(CLINE), ys=py(WLINE);
+  const quads=[
+    {x:xs,y:y1,w:x1-xs,h:ys-y1,fill:"var(--q-chip)"},   // top-right blue chip
+    {x:x0,y:y1,w:xs-x0,h:ys-y1,fill:"var(--q-sleep)"},  // top-left sleeper
+    {x:xs,y:ys,w:x1-xs,h:y0-ys,fill:"var(--q-over)"},   // bottom-right overvalued
+    {x:x0,y:ys,w:xs-x0,h:y0-ys,fill:"var(--q-spec)"},   // bottom-left spec
+  ];
+  quads.forEach(q=>svg.appendChild(el("rect",{x:q.x,y:q.y,width:q.w,height:q.h,fill:q.fill})));
+
+  // gridlines
+  for(let v=10;v<=70;v+=10){const gx=px(v);svg.appendChild(el("line",{x1:gx,y1:y1,x2:gx,y2:y0,class:"gridline"}));
+    const t=el("text",{x:gx,y:y0+22,"text-anchor":"middle",class:"axis-t","font-size":12});t.textContent=v+"%";svg.appendChild(t);}
+  for(let v=35;v<=65;v+=5){const gy=py(v);svg.appendChild(el("line",{x1:x0,y1:gy,x2:x1,y2:gy,class:"gridline"}));
+    const t=el("text",{x:x0-12,y:gy+4,"text-anchor":"end",class:"axis-t","font-size":12});t.textContent=v+"%";svg.appendChild(t);}
+
+  // split crosshairs
+  svg.appendChild(el("line",{x1:xs,y1:y1,x2:xs,y2:y0,class:"split"}));
+  svg.appendChild(el("line",{x1:x0,y1:ys,x2:x1,y2:ys,class:"split"}));
+
+  // quadrant labels
+  const qlabels=[
+    {x:x1-10,y:y1+26,a:"end",t:"BLUE CHIPS",s:"earned hype",c:"var(--gain)"},
+    {x:x0+12,y:y1+26,a:"start",t:"SLEEPERS",s:"undervalued",c:"var(--sleeper)"},
+    {x:x1-10,y:y0-14,a:"end",t:"OVERVALUED",s:"overrated by results",c:"var(--loss)"},
+    {x:x0+12,y:y0-30,a:"start",t:"SPECULATIVE",s:"fringe picks",c:"var(--spec)"},
+  ];
+  qlabels.forEach(q=>{
+    const t=el("text",{x:q.x,y:q.y,"text-anchor":q.a,class:"q-tag","font-size":13,fill:q.c,"font-weight":600,opacity:.9});
+    t.textContent=q.t;svg.appendChild(t);
+    const s=el("text",{x:q.x,y:q.y+16,"text-anchor":q.a,class:"axis-title","font-size":11.5,opacity:.7});
+    s.textContent=q.s;svg.appendChild(s);
+  });
+
+  // axis titles
+  const axT=el("text",{x:(x0+x1)/2,y:y0+48,"text-anchor":"middle",class:"axis-title","font-size":13});
+  axT.textContent="◄ LESS DRAFTED        DEMAND · contest rate        MORE DRAFTED ►";svg.appendChild(axT);
+  const ayT=el("text",{x:20,y:(y0+y1)/2,"text-anchor":"middle",class:"axis-title","font-size":13,transform:`rotate(-90 20 ${(y0+y1)/2})`});
+  ayT.textContent="VALUE · win rate  ►";svg.appendChild(ayT);
+
+  // dots
+  const sorted=[...DATA].sort((a,b)=>b.picks-a.picks); // big under small
+  sorted.forEach(c=>{
+    const match=activeRole==="all"||c.role===activeRole;
+    const win=c.winrate>=50;
+    const g=el("g",{class:"dot-c",opacity:match?1:.09,"pointer-events":match?"auto":"none"});
+    g.appendChild(el("circle",{cx:px(c.contest_rate),cy:py(c.winrate),r:rad(c.picks),
+      fill:win?"var(--gain)":"var(--loss)","fill-opacity":.34,
+      stroke:win?"var(--gain)":"var(--loss)","stroke-width":1.6,"stroke-opacity":.95}));
+    g.addEventListener("mouseenter",()=>showQuote(c,g));
+    g.addEventListener("mouseleave",hideQuote);
+    g.dataset.champ=c.champion;
+    svg.appendChild(g);
+    if(FEATURED.has(c.champion)&&match){
+      const lab=el("text",{x:px(c.contest_rate)+rad(c.picks)+5,y:py(c.winrate)+4,class:"dot-lab"});
+      lab.textContent=c.champion;svg.appendChild(lab);
+    }
+  });
+}
+
+function showQuote(c,g){
+  g.querySelector("circle").setAttribute("fill-opacity",.62);
+  const q=$("#quote");
+  const win=c.winrate>=50;
+  q.innerHTML=`<div class="qh"><div><div class="qname">${c.champion}</div>`+
+    `<div class="qrole">${ROLE_LABEL[c.role]||c.role}</div></div>`+
+    `<span class="pill ${c.q.cls}">${c.q.name}</span></div>`+
+    `<div class="qrow"><span class="qk">Contest</span><span class="qv">${c.contest_rate.toFixed(1)}%</span></div>`+
+    `<div class="qrow"><span class="qk">Win rate</span><span class="qv ${win?'g':'r'}">${c.winrate.toFixed(1)}%</span></div>`+
+    `<div class="qrow"><span class="qk">Picks · Bans</span><span class="qv">${c.picks} · ${c.bans}</span></div>`+
+    `<div class="qrow"><span class="qk">Signal</span><span class="qv">${c.q.sig}</span></div>`;
+  // position
+  const area=$(".map-area").getBoundingClientRect();
+  const svg=$("#map"); const sb=svg.getBoundingClientRect();
+  const scale=sb.width/VB.w;
+  let left=sb.left-area.left+px(c.contest_rate)*scale+rad(c.picks)*scale+12;
+  let top=sb.top-area.top+py(c.winrate)*scale-10;
+  q.style.left="0px";q.style.top="0px";q.classList.add("on");
+  const qb=q.getBoundingClientRect();
+  if(left+qb.width>area.width) left=sb.left-area.left+px(c.contest_rate)*scale-qb.width-rad(c.picks)*scale-12;
+  top=Math.max(4,Math.min(top,area.height-qb.height-4));
+  q.style.left=left+"px";q.style.top=top+"px";
+}
+function hideQuote(){$("#quote").classList.remove("on");
+  document.querySelectorAll(".dot-c circle").forEach(c=>{
+    const win=c.getAttribute("stroke").includes("gain");
+    c.setAttribute("fill-opacity",.34);});}
+
+/* role filters */
+(function(){
+  const roles=[["all","All"],["top","Top"],["jng","Jungle"],["mid","Mid"],["bot","Bot"],["sup","Support"]];
+  $("#filters").innerHTML=roles.map(([k,l],i)=>
+    `<button class="chip" data-role="${k}" aria-pressed="${i===0}">${l}</button>`).join("");
+  $("#filters").addEventListener("click",e=>{
+    const b=e.target.closest(".chip"); if(!b)return;
+    activeRole=b.dataset.role;
+    $("#filters").querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed",x===b));
+    hideQuote(); drawMap();
+  });
+})();
+
+/* ---- ANALYST CALLS ---- */
+(function(){
+  const pick=n=>DATA.find(c=>c.champion===n);
+  const cards=[
+    {n:"Varus", thesis:"Picked or banned in about two of every three games and wins 56% of the time. Popular because broken — Varus is strong, really strong. If he's open, take him. If you can't, ban him."},
+    {n:"Poppy", thesis:"She wins 59.6% and still isn't a permaban?! Interesting strategy! Everyone knows she's good and she performs exceptionally well — that's rare. I'd keep drafting her until teams ban her every game."},
+    {n:"Kalista", thesis:"Banned 829 times, picked 182. Teams are scared of her, but don't trust their own talent enough to play her — and the few who do win 59% of the time. That's a respect ban, nothing more."},
+    {n:"Nautilus", thesis:"Teams keep drafting Nautilus out of (bad) habit, and he posts an ABYSSmal 44% win rate. The reputation's doing the work, not the champion. Cast him into the Abyss — the pro scene should too."},
+    {n:"Corki", thesis:"42% win rate and still one of the most fought-over picks in the game. Corki's one of LoL's enigmatic champions — his kit and the way he scales with items make him boom-or-bust. Teams keep drafting something that loses more than it wins. Sell, unless the pro player piloting it makes up for this (see below)."},
+    {n:"Caitlyn", thesis:"Barely picked, wins 55% when she's available. Maybe she's underrated, maybe she needs the right team around her. She's another enigmatic one — odd item-scaling like Corki, and you have to play carefully around her — so teams might just be scared of getting it wrong in the early game and getting collapsed on all game. Either way, there's an edge here nobody's grabbing, including the most coveted ADC players in the world.<br><br><b>Top Tier sleeper pick, grab her and learn to play around her, build a comp for her, and unleash mayhem on the rift!</b>"},
+  ].map(x=>({...x, c:pick(x.n)})).filter(x=>x.c);
+
+  $("#calls").innerHTML=cards.map(x=>{
+    const c=x.c, win=c.winrate>=50;
+    return `<div class="call"><div class="call-h"><div><div class="cn">${c.champion}</div>`+
+      `<div class="cr">${ROLE_LABEL[c.role]||c.role} · ${c.q.name}</div></div>`+
+      `<span class="sig ${c.q.sigcls}">${c.q.sig}</span></div>`+
+      `<div class="call-stats">`+
+        `<div><div class="cs-k">Contest</div><div class="cs-v">${c.contest_rate.toFixed(1)}%</div></div>`+
+        `<div><div class="cs-k">Win</div><div class="cs-v ${win?'g':'r'}">${c.winrate.toFixed(1)}%</div></div>`+
+      `</div>`+
+      `<p class="thesis">${x.thesis}</p></div>`;
+  }).join("");
+})();
+
+/* ---- TABLE ---- */
+let sortK="contest_rate", sortAsc=false;
+function renderTable(){
+  const rows=[...DATA].sort((a,b)=>{
+    let av,bv;
+    if(sortK==="signal"){av=a.q.sig;bv=b.q.sig;}
+    else{av=a[sortK];bv=b[sortK];}
+    if(typeof av==="string")return sortAsc?av.localeCompare(bv):bv.localeCompare(av);
+    return sortAsc?av-bv:bv-av;
+  });
+  $("#tbody").innerHTML=rows.map(c=>{
+    const win=c.winrate>=50;
+    return `<tr><td>${c.champion}</td>`+
+      `<td><span class="rl">${c.role}</span></td>`+
+      `<td>${c.contest_rate.toFixed(1)}</td>`+
+      `<td class="${win?'g':'r'}">${c.winrate.toFixed(1)}</td>`+
+      `<td>${c.picks}</td><td>${c.bans}</td>`+
+      `<td><span class="mini-sig ${c.q.sigcls}">${c.q.sig}</span></td></tr>`;
+  }).join("");
+}
+$("#tbl thead").addEventListener("click",e=>{
+  const th=e.target.closest("th"); if(!th)return;
+  const k=th.dataset.k;
+  if(k===sortK)sortAsc=!sortAsc; else{sortK=k;sortAsc=(k==="champion"||k==="role");}
+  $("#tbl thead").querySelectorAll("th").forEach(x=>{x.classList.remove("sorted","asc");});
+  th.classList.add("sorted"); if(sortAsc)th.classList.add("asc");
+  renderTable();
+});
+
+/* ---- THEME TOGGLE ---- */
+(function(){
+  const root=document.documentElement, btn=$("#themeBtn");
+  let saved=null; try{saved=localStorage.getItem("mm-theme");}catch(e){}
+  if(saved)root.setAttribute("data-theme",saved);
+  btn.addEventListener("click",()=>{
+    const cur=root.getAttribute("data-theme")
+      || (matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");
+    const next=cur==="dark"?"light":"dark";
+    root.setAttribute("data-theme",next);
+    try{localStorage.setItem("mm-theme",next);}catch(e){}
+    drawMap();
+  });
+})();
+
+/* ---- PLAYER FACTOR ---- */
+(function(){
+  const pos=v=>Math.max(3,Math.min(97,(v-35)/(100-35)*100));
+  $("#pf-dumb").innerHTML=PF.specialists.map(s=>{
+    const fp=pos(s.field_wr), pp=pos(s.pilot_wr);
+    const lo=Math.min(fp,pp), w=Math.abs(pp-fp);
+    return `<div class="dumb"><div class="dumb-name">${s.champion}<small>overall ${s.overall_wr}%</small></div>`+
+      `<div class="dumb-track"><div class="dumb-base"></div>`+
+      `<div class="dumb-line" style="left:${lo}%;width:${w}%"></div>`+
+      `<div class="dumb-lab field" style="left:${fp}%">${s.field_wr}</div>`+
+      `<div class="dumb-lab pilot" style="left:${pp}%">${s.pilot_wr}</div>`+
+      `<div class="dumb-pt field" style="left:${fp}%"></div>`+
+      `<div class="dumb-pt pilot" style="left:${pp}%"></div></div>`+
+      `<div class="dumb-pilot"><b>${s.pilot}</b><span>${s.team} · ${s.pilot_g}g</span></div></div>`;
+  }).join("");
+})();
+
+/* ---- DRAFT SYNERGIES ---- */
+(function(){
+  const roleLab=r=>({top:"Top",jng:"Jungle",mid:"Mid",bot:"Bot",sup:"Support"}[r]||r);
+  $("#syn-grid").innerHTML=SYN.top.map(s=>
+    `<div class="syn"><div class="syn-h"><div><div class="syn-names">${s.c1} <span class="plus">+</span> ${s.c2}</div>`+
+    `<div class="syn-roles">${roleLab(s.r1)} · ${roleLab(s.r2)}</div></div>`+
+    `<span class="syn-lift">+${s.lift}</span></div>`+
+    `<div class="syn-flow"><div class="syn-cell"><span class="v apart">${s.solo1} / ${s.solo2}</span><small>apart</small></div>`+
+    `<span class="syn-arw">→</span>`+
+    `<div class="syn-cell"><span class="v tog">${s.pair_wr}<span class="unit">%</span></span><small>together</small></div></div>`+
+    `<div class="syn-g">${s.g} games drafted together</div></div>`).join("");
+  $("#syn-worst").innerHTML=`<h4>…and some pairs are worse together</h4><div class="ws">`+
+    SYN.worst.map(s=>`<span><b>${s.c1} + ${s.c2}</b> — <span class="neg">${s.pair_wr}%</span> together · ${s.lift} lift · ${s.g}g</span>`).join("")+`</div>`;
+})();
+
+/* ---- INIT ---- */
+drawMap(); renderTable();
+window.addEventListener("resize",()=>{hideQuote();});
+</script>

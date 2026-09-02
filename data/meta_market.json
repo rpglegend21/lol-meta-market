@@ -1,0 +1,974 @@
+{
+  "meta": {
+    "season": "2025",
+    "leagues": [
+      "LCK",
+      "LPL",
+      "LEC",
+      "LTA N",
+      "LTA S",
+      "WLDs"
+    ],
+    "total_games": 2198,
+    "pick_floor": 15,
+    "contest_line": 14.4,
+    "winrate_line": 50.0,
+    "n_champions": 106
+  },
+  "champions": [
+    {
+      "champion": "Varus",
+      "role": "bot",
+      "picks": 491,
+      "bans": 913,
+      "contest": 1404,
+      "contest_rate": 63.9,
+      "winrate": 55.6
+    },
+    {
+      "champion": "Vi",
+      "role": "jng",
+      "picks": 434,
+      "bans": 927,
+      "contest": 1361,
+      "contest_rate": 61.9,
+      "winrate": 50.0
+    },
+    {
+      "champion": "Azir",
+      "role": "mid",
+      "picks": 426,
+      "bans": 833,
+      "contest": 1259,
+      "contest_rate": 57.3,
+      "winrate": 48.1
+    },
+    {
+      "champion": "Rumble",
+      "role": "top",
+      "picks": 577,
+      "bans": 649,
+      "contest": 1226,
+      "contest_rate": 55.8,
+      "winrate": 53.6
+    },
+    {
+      "champion": "Poppy",
+      "role": "sup",
+      "picks": 332,
+      "bans": 805,
+      "contest": 1137,
+      "contest_rate": 51.7,
+      "winrate": 59.6
+    },
+    {
+      "champion": "Gwen",
+      "role": "top",
+      "picks": 335,
+      "bans": 790,
+      "contest": 1125,
+      "contest_rate": 51.2,
+      "winrate": 49.9
+    },
+    {
+      "champion": "Taliyah",
+      "role": "mid",
+      "picks": 544,
+      "bans": 534,
+      "contest": 1078,
+      "contest_rate": 49.0,
+      "winrate": 53.5
+    },
+    {
+      "champion": "Yone",
+      "role": "mid",
+      "picks": 292,
+      "bans": 743,
+      "contest": 1035,
+      "contest_rate": 47.1,
+      "winrate": 56.8
+    },
+    {
+      "champion": "Alistar",
+      "role": "sup",
+      "picks": 596,
+      "bans": 438,
+      "contest": 1034,
+      "contest_rate": 47.0,
+      "winrate": 52.9
+    },
+    {
+      "champion": "Kalista",
+      "role": "bot",
+      "picks": 182,
+      "bans": 829,
+      "contest": 1011,
+      "contest_rate": 46.0,
+      "winrate": 59.3
+    },
+    {
+      "champion": "Pantheon",
+      "role": "jng",
+      "picks": 375,
+      "bans": 611,
+      "contest": 986,
+      "contest_rate": 44.9,
+      "winrate": 46.4
+    },
+    {
+      "champion": "Neeko",
+      "role": "sup",
+      "picks": 340,
+      "bans": 607,
+      "contest": 947,
+      "contest_rate": 43.1,
+      "winrate": 55.6
+    },
+    {
+      "champion": "Rakan",
+      "role": "sup",
+      "picks": 503,
+      "bans": 387,
+      "contest": 890,
+      "contest_rate": 40.5,
+      "winrate": 54.9
+    },
+    {
+      "champion": "Ambessa",
+      "role": "top",
+      "picks": 518,
+      "bans": 361,
+      "contest": 879,
+      "contest_rate": 40.0,
+      "winrate": 45.2
+    },
+    {
+      "champion": "Ezreal",
+      "role": "bot",
+      "picks": 482,
+      "bans": 397,
+      "contest": 879,
+      "contest_rate": 40.0,
+      "winrate": 49.8
+    },
+    {
+      "champion": "Xin Zhao",
+      "role": "jng",
+      "picks": 655,
+      "bans": 217,
+      "contest": 872,
+      "contest_rate": 39.7,
+      "winrate": 50.7
+    },
+    {
+      "champion": "Skarner",
+      "role": "jng",
+      "picks": 291,
+      "bans": 542,
+      "contest": 833,
+      "contest_rate": 37.9,
+      "winrate": 47.4
+    },
+    {
+      "champion": "Kai'Sa",
+      "role": "bot",
+      "picks": 443,
+      "bans": 387,
+      "contest": 830,
+      "contest_rate": 37.8,
+      "winrate": 52.6
+    },
+    {
+      "champion": "Jayce",
+      "role": "top",
+      "picks": 328,
+      "bans": 467,
+      "contest": 795,
+      "contest_rate": 36.2,
+      "winrate": 48.5
+    },
+    {
+      "champion": "Aurora",
+      "role": "mid",
+      "picks": 408,
+      "bans": 383,
+      "contest": 791,
+      "contest_rate": 36.0,
+      "winrate": 48.0
+    },
+    {
+      "champion": "Nautilus",
+      "role": "sup",
+      "picks": 445,
+      "bans": 329,
+      "contest": 774,
+      "contest_rate": 35.2,
+      "winrate": 44.0
+    },
+    {
+      "champion": "Rell",
+      "role": "sup",
+      "picks": 592,
+      "bans": 174,
+      "contest": 766,
+      "contest_rate": 34.8,
+      "winrate": 48.6
+    },
+    {
+      "champion": "Corki",
+      "role": "bot",
+      "picks": 500,
+      "bans": 218,
+      "contest": 718,
+      "contest_rate": 32.7,
+      "winrate": 42.0
+    },
+    {
+      "champion": "Wukong",
+      "role": "jng",
+      "picks": 429,
+      "bans": 284,
+      "contest": 713,
+      "contest_rate": 32.4,
+      "winrate": 51.5
+    },
+    {
+      "champion": "Braum",
+      "role": "sup",
+      "picks": 381,
+      "bans": 310,
+      "contest": 691,
+      "contest_rate": 31.4,
+      "winrate": 49.3
+    },
+    {
+      "champion": "Sion",
+      "role": "top",
+      "picks": 405,
+      "bans": 247,
+      "contest": 652,
+      "contest_rate": 29.7,
+      "winrate": 50.9
+    },
+    {
+      "champion": "Sejuani",
+      "role": "jng",
+      "picks": 382,
+      "bans": 250,
+      "contest": 632,
+      "contest_rate": 28.8,
+      "winrate": 44.8
+    },
+    {
+      "champion": "Ryze",
+      "role": "mid",
+      "picks": 376,
+      "bans": 221,
+      "contest": 597,
+      "contest_rate": 27.2,
+      "winrate": 52.9
+    },
+    {
+      "champion": "Galio",
+      "role": "mid",
+      "picks": 318,
+      "bans": 264,
+      "contest": 582,
+      "contest_rate": 26.5,
+      "winrate": 49.7
+    },
+    {
+      "champion": "Orianna",
+      "role": "mid",
+      "picks": 307,
+      "bans": 256,
+      "contest": 563,
+      "contest_rate": 25.6,
+      "winrate": 53.1
+    },
+    {
+      "champion": "Miss Fortune",
+      "role": "bot",
+      "picks": 327,
+      "bans": 224,
+      "contest": 551,
+      "contest_rate": 25.1,
+      "winrate": 47.4
+    },
+    {
+      "champion": "Renekton",
+      "role": "top",
+      "picks": 295,
+      "bans": 256,
+      "contest": 551,
+      "contest_rate": 25.1,
+      "winrate": 55.9
+    },
+    {
+      "champion": "Lucian",
+      "role": "bot",
+      "picks": 246,
+      "bans": 284,
+      "contest": 530,
+      "contest_rate": 24.1,
+      "winrate": 45.9
+    },
+    {
+      "champion": "K'Sante",
+      "role": "top",
+      "picks": 348,
+      "bans": 180,
+      "contest": 528,
+      "contest_rate": 24.0,
+      "winrate": 45.4
+    },
+    {
+      "champion": "Leona",
+      "role": "sup",
+      "picks": 387,
+      "bans": 137,
+      "contest": 524,
+      "contest_rate": 23.8,
+      "winrate": 44.2
+    },
+    {
+      "champion": "Trundle",
+      "role": "jng",
+      "picks": 228,
+      "bans": 293,
+      "contest": 521,
+      "contest_rate": 23.7,
+      "winrate": 48.7
+    },
+    {
+      "champion": "Viktor",
+      "role": "mid",
+      "picks": 311,
+      "bans": 206,
+      "contest": 517,
+      "contest_rate": 23.5,
+      "winrate": 44.4
+    },
+    {
+      "champion": "Naafiri",
+      "role": "jng",
+      "picks": 233,
+      "bans": 279,
+      "contest": 512,
+      "contest_rate": 23.3,
+      "winrate": 51.5
+    },
+    {
+      "champion": "Xayah",
+      "role": "bot",
+      "picks": 280,
+      "bans": 218,
+      "contest": 498,
+      "contest_rate": 22.7,
+      "winrate": 54.6
+    },
+    {
+      "champion": "Ahri",
+      "role": "mid",
+      "picks": 342,
+      "bans": 157,
+      "contest": 499,
+      "contest_rate": 22.7,
+      "winrate": 45.6
+    },
+    {
+      "champion": "Jhin",
+      "role": "bot",
+      "picks": 347,
+      "bans": 147,
+      "contest": 494,
+      "contest_rate": 22.5,
+      "winrate": 44.7
+    },
+    {
+      "champion": "Annie",
+      "role": "mid",
+      "picks": 236,
+      "bans": 244,
+      "contest": 480,
+      "contest_rate": 21.8,
+      "winrate": 55.1
+    },
+    {
+      "champion": "Yunara",
+      "role": "bot",
+      "picks": 124,
+      "bans": 349,
+      "contest": 473,
+      "contest_rate": 21.5,
+      "winrate": 54.8
+    },
+    {
+      "champion": "Jax",
+      "role": "top",
+      "picks": 221,
+      "bans": 217,
+      "contest": 438,
+      "contest_rate": 19.9,
+      "winrate": 51.1
+    },
+    {
+      "champion": "Maokai",
+      "role": "jng",
+      "picks": 205,
+      "bans": 224,
+      "contest": 429,
+      "contest_rate": 19.5,
+      "winrate": 51.2
+    },
+    {
+      "champion": "Sylas",
+      "role": "mid",
+      "picks": 218,
+      "bans": 198,
+      "contest": 416,
+      "contest_rate": 18.9,
+      "winrate": 50.5
+    },
+    {
+      "champion": "Nocturne",
+      "role": "jng",
+      "picks": 149,
+      "bans": 257,
+      "contest": 406,
+      "contest_rate": 18.5,
+      "winrate": 46.3
+    },
+    {
+      "champion": "Sivir",
+      "role": "bot",
+      "picks": 225,
+      "bans": 182,
+      "contest": 407,
+      "contest_rate": 18.5,
+      "winrate": 53.3
+    },
+    {
+      "champion": "Renata Glasc",
+      "role": "sup",
+      "picks": 201,
+      "bans": 199,
+      "contest": 400,
+      "contest_rate": 18.2,
+      "winrate": 53.2
+    },
+    {
+      "champion": "Ashe",
+      "role": "bot",
+      "picks": 176,
+      "bans": 221,
+      "contest": 397,
+      "contest_rate": 18.1,
+      "winrate": 48.3
+    },
+    {
+      "champion": "Akali",
+      "role": "mid",
+      "picks": 162,
+      "bans": 178,
+      "contest": 340,
+      "contest_rate": 15.5,
+      "winrate": 46.3
+    },
+    {
+      "champion": "Jarvan IV",
+      "role": "jng",
+      "picks": 205,
+      "bans": 129,
+      "contest": 334,
+      "contest_rate": 15.2,
+      "winrate": 56.1
+    },
+    {
+      "champion": "Yorick",
+      "role": "top",
+      "picks": 202,
+      "bans": 126,
+      "contest": 328,
+      "contest_rate": 14.9,
+      "winrate": 47.0
+    },
+    {
+      "champion": "Gnar",
+      "role": "top",
+      "picks": 184,
+      "bans": 120,
+      "contest": 304,
+      "contest_rate": 13.8,
+      "winrate": 48.9
+    },
+    {
+      "champion": "Bard",
+      "role": "sup",
+      "picks": 151,
+      "bans": 153,
+      "contest": 304,
+      "contest_rate": 13.8,
+      "winrate": 44.4
+    },
+    {
+      "champion": "Karma",
+      "role": "sup",
+      "picks": 132,
+      "bans": 143,
+      "contest": 275,
+      "contest_rate": 12.5,
+      "winrate": 53.0
+    },
+    {
+      "champion": "Ornn",
+      "role": "top",
+      "picks": 177,
+      "bans": 97,
+      "contest": 274,
+      "contest_rate": 12.5,
+      "winrate": 52.5
+    },
+    {
+      "champion": "Lillia",
+      "role": "jng",
+      "picks": 128,
+      "bans": 133,
+      "contest": 261,
+      "contest_rate": 11.9,
+      "winrate": 54.7
+    },
+    {
+      "champion": "Ziggs",
+      "role": "bot",
+      "picks": 119,
+      "bans": 125,
+      "contest": 244,
+      "contest_rate": 11.1,
+      "winrate": 51.3
+    },
+    {
+      "champion": "Senna",
+      "role": "bot",
+      "picks": 118,
+      "bans": 115,
+      "contest": 233,
+      "contest_rate": 10.6,
+      "winrate": 48.3
+    },
+    {
+      "champion": "Nidalee",
+      "role": "jng",
+      "picks": 116,
+      "bans": 114,
+      "contest": 230,
+      "contest_rate": 10.5,
+      "winrate": 58.6
+    },
+    {
+      "champion": "Aatrox",
+      "role": "top",
+      "picks": 183,
+      "bans": 39,
+      "contest": 222,
+      "contest_rate": 10.1,
+      "winrate": 49.2
+    },
+    {
+      "champion": "Zyra",
+      "role": "jng",
+      "picks": 80,
+      "bans": 141,
+      "contest": 221,
+      "contest_rate": 10.1,
+      "winrate": 45.0
+    },
+    {
+      "champion": "Caitlyn",
+      "role": "bot",
+      "picks": 92,
+      "bans": 114,
+      "contest": 206,
+      "contest_rate": 9.4,
+      "winrate": 55.4
+    },
+    {
+      "champion": "Lulu",
+      "role": "sup",
+      "picks": 89,
+      "bans": 100,
+      "contest": 189,
+      "contest_rate": 8.6,
+      "winrate": 48.3
+    },
+    {
+      "champion": "Viego",
+      "role": "jng",
+      "picks": 127,
+      "bans": 59,
+      "contest": 186,
+      "contest_rate": 8.5,
+      "winrate": 44.1
+    },
+    {
+      "champion": "Zeri",
+      "role": "bot",
+      "picks": 131,
+      "bans": 52,
+      "contest": 183,
+      "contest_rate": 8.3,
+      "winrate": 47.3
+    },
+    {
+      "champion": "Elise",
+      "role": "sup",
+      "picks": 73,
+      "bans": 82,
+      "contest": 155,
+      "contest_rate": 7.1,
+      "winrate": 46.6
+    },
+    {
+      "champion": "Tristana",
+      "role": "mid",
+      "picks": 94,
+      "bans": 53,
+      "contest": 147,
+      "contest_rate": 6.7,
+      "winrate": 46.8
+    },
+    {
+      "champion": "Jinx",
+      "role": "bot",
+      "picks": 100,
+      "bans": 46,
+      "contest": 146,
+      "contest_rate": 6.6,
+      "winrate": 54.0
+    },
+    {
+      "champion": "Lee Sin",
+      "role": "jng",
+      "picks": 88,
+      "bans": 52,
+      "contest": 140,
+      "contest_rate": 6.4,
+      "winrate": 53.4
+    },
+    {
+      "champion": "Draven",
+      "role": "bot",
+      "picks": 36,
+      "bans": 101,
+      "contest": 137,
+      "contest_rate": 6.2,
+      "winrate": 44.4
+    },
+    {
+      "champion": "Camille",
+      "role": "top",
+      "picks": 78,
+      "bans": 42,
+      "contest": 120,
+      "contest_rate": 5.5,
+      "winrate": 60.3
+    },
+    {
+      "champion": "Hwei",
+      "role": "mid",
+      "picks": 74,
+      "bans": 35,
+      "contest": 109,
+      "contest_rate": 5.0,
+      "winrate": 48.6
+    },
+    {
+      "champion": "Gragas",
+      "role": "top",
+      "picks": 81,
+      "bans": 24,
+      "contest": 105,
+      "contest_rate": 4.8,
+      "winrate": 50.6
+    },
+    {
+      "champion": "Smolder",
+      "role": "bot",
+      "picks": 69,
+      "bans": 35,
+      "contest": 104,
+      "contest_rate": 4.7,
+      "winrate": 39.1
+    },
+    {
+      "champion": "Cassiopeia",
+      "role": "mid",
+      "picks": 52,
+      "bans": 49,
+      "contest": 101,
+      "contest_rate": 4.6,
+      "winrate": 51.9
+    },
+    {
+      "champion": "Qiyana",
+      "role": "jng",
+      "picks": 33,
+      "bans": 67,
+      "contest": 100,
+      "contest_rate": 4.5,
+      "winrate": 48.5
+    },
+    {
+      "champion": "Ivern",
+      "role": "jng",
+      "picks": 34,
+      "bans": 53,
+      "contest": 87,
+      "contest_rate": 4.0,
+      "winrate": 55.9
+    },
+    {
+      "champion": "LeBlanc",
+      "role": "mid",
+      "picks": 31,
+      "bans": 56,
+      "contest": 87,
+      "contest_rate": 4.0,
+      "winrate": 51.6
+    },
+    {
+      "champion": "Blitzcrank",
+      "role": "sup",
+      "picks": 45,
+      "bans": 38,
+      "contest": 83,
+      "contest_rate": 3.8,
+      "winrate": 53.3
+    },
+    {
+      "champion": "Nami",
+      "role": "sup",
+      "picks": 67,
+      "bans": 5,
+      "contest": 72,
+      "contest_rate": 3.3,
+      "winrate": 41.8
+    },
+    {
+      "champion": "Shen",
+      "role": "top",
+      "picks": 38,
+      "bans": 33,
+      "contest": 71,
+      "contest_rate": 3.2,
+      "winrate": 34.2
+    },
+    {
+      "champion": "Zed",
+      "role": "jng",
+      "picks": 40,
+      "bans": 19,
+      "contest": 59,
+      "contest_rate": 2.7,
+      "winrate": 50.0
+    },
+    {
+      "champion": "Aphelios",
+      "role": "bot",
+      "picks": 48,
+      "bans": 12,
+      "contest": 60,
+      "contest_rate": 2.7,
+      "winrate": 39.6
+    },
+    {
+      "champion": "Cho'Gath",
+      "role": "top",
+      "picks": 49,
+      "bans": 9,
+      "contest": 58,
+      "contest_rate": 2.6,
+      "winrate": 51.0
+    },
+    {
+      "champion": "Olaf",
+      "role": "top",
+      "picks": 26,
+      "bans": 24,
+      "contest": 50,
+      "contest_rate": 2.3,
+      "winrate": 46.2
+    },
+    {
+      "champion": "Twisted Fate",
+      "role": "mid",
+      "picks": 26,
+      "bans": 21,
+      "contest": 47,
+      "contest_rate": 2.1,
+      "winrate": 53.8
+    },
+    {
+      "champion": "Mel",
+      "role": "mid",
+      "picks": 20,
+      "bans": 25,
+      "contest": 45,
+      "contest_rate": 2.0,
+      "winrate": 40.0
+    },
+    {
+      "champion": "Kindred",
+      "role": "jng",
+      "picks": 17,
+      "bans": 27,
+      "contest": 44,
+      "contest_rate": 2.0,
+      "winrate": 41.2
+    },
+    {
+      "champion": "Syndra",
+      "role": "mid",
+      "picks": 26,
+      "bans": 17,
+      "contest": 43,
+      "contest_rate": 2.0,
+      "winrate": 53.8
+    },
+    {
+      "champion": "Udyr",
+      "role": "top",
+      "picks": 24,
+      "bans": 18,
+      "contest": 42,
+      "contest_rate": 1.9,
+      "winrate": 37.5
+    },
+    {
+      "champion": "Yasuo",
+      "role": "mid",
+      "picks": 20,
+      "bans": 15,
+      "contest": 35,
+      "contest_rate": 1.6,
+      "winrate": 40.0
+    },
+    {
+      "champion": "Kennen",
+      "role": "top",
+      "picks": 23,
+      "bans": 11,
+      "contest": 34,
+      "contest_rate": 1.5,
+      "winrate": 65.2
+    },
+    {
+      "champion": "Thresh",
+      "role": "sup",
+      "picks": 22,
+      "bans": 12,
+      "contest": 34,
+      "contest_rate": 1.5,
+      "winrate": 45.5
+    },
+    {
+      "champion": "Seraphine",
+      "role": "sup",
+      "picks": 25,
+      "bans": 9,
+      "contest": 34,
+      "contest_rate": 1.5,
+      "winrate": 40.0
+    },
+    {
+      "champion": "Rek'Sai",
+      "role": "top",
+      "picks": 28,
+      "bans": 5,
+      "contest": 33,
+      "contest_rate": 1.5,
+      "winrate": 53.6
+    },
+    {
+      "champion": "Pyke",
+      "role": "sup",
+      "picks": 19,
+      "bans": 15,
+      "contest": 34,
+      "contest_rate": 1.5,
+      "winrate": 57.9
+    },
+    {
+      "champion": "Volibear",
+      "role": "jng",
+      "picks": 20,
+      "bans": 13,
+      "contest": 33,
+      "contest_rate": 1.5,
+      "winrate": 55.0
+    },
+    {
+      "champion": "Mordekaiser",
+      "role": "top",
+      "picks": 20,
+      "bans": 11,
+      "contest": 31,
+      "contest_rate": 1.4,
+      "winrate": 50.0
+    },
+    {
+      "champion": "Dr. Mundo",
+      "role": "jng",
+      "picks": 20,
+      "bans": 8,
+      "contest": 28,
+      "contest_rate": 1.3,
+      "winrate": 60.0
+    },
+    {
+      "champion": "Sett",
+      "role": "sup",
+      "picks": 15,
+      "bans": 11,
+      "contest": 26,
+      "contest_rate": 1.2,
+      "winrate": 60.0
+    },
+    {
+      "champion": "Tahm Kench",
+      "role": "sup",
+      "picks": 15,
+      "bans": 8,
+      "contest": 23,
+      "contest_rate": 1.0,
+      "winrate": 33.3
+    },
+    {
+      "champion": "Milio",
+      "role": "sup",
+      "picks": 20,
+      "bans": 2,
+      "contest": 22,
+      "contest_rate": 1.0,
+      "winrate": 30.0
+    },
+    {
+      "champion": "Vladimir",
+      "role": "top",
+      "picks": 16,
+      "bans": 2,
+      "contest": 18,
+      "contest_rate": 0.8,
+      "winrate": 37.5
+    },
+    {
+      "champion": "Swain",
+      "role": "mid",
+      "picks": 15,
+      "bans": 3,
+      "contest": 18,
+      "contest_rate": 0.8,
+      "winrate": 66.7
+    }
+  ]
+}
