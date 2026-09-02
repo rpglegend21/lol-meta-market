@@ -2,7 +2,7 @@
 
 **2025 pro League of Legends, priced like a stock market.** Every champion scored on two axes — how badly teams *wanted* it (demand) and whether it actually *won* (value) — so the interesting ones fall out on their own: hype that isn't earned, and quiet picks that are.
 
-> 🔗 **Live:** _link goes here once published_
+> 🔗 **Live:** https://claude.ai/code/artifact/f514a312-4f8c-4693-b23c-e13602a903d1
 > 📊 Built on **2,198 real games** from the 2025 season (LCK · LPL · LEC · LTA N/S · Worlds).
 
 ---
@@ -92,3 +92,7 @@ Match data from **[Oracle's Elixir](https://oracleselixir.com/tools/downloads)**
 DuckDB (SQL over the raw CSV, no warehouse) · Python (stdlib + `duckdb`) · a single self-contained HTML/CSS/SVG file, no build step and no dependencies.
 
 The code here is MIT-licensed. The match data belongs to Oracle's Elixir under its own terms.
+
+---
+
+Built by **Richard Bretton** — TPO/TPM. Also a longtime League player (in-game: **SGS Phoenix**); the read on these champions is a player's, checked against the data.
