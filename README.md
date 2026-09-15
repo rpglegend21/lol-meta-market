@@ -2,7 +2,7 @@
 
 **2025 pro League of Legends, priced like a stock market.** Every champion scored on two axes — how badly teams *wanted* it (demand) and whether it actually *won* (value) — so the interesting ones fall out on their own: hype that isn't earned, and quiet picks that are.
 
-> 🔗 **Live:** https://claude.ai/code/artifact/f514a312-4f8c-4693-b23c-e13602a903d1
+> 🔗 **Live:** https://rpglegend21.github.io/lol-meta-market/
 > 📊 Built on **2,198 real games** from the 2025 season (LCK · LPL · LEC · LTA N/S · Worlds).
 
 ---
@@ -54,9 +54,9 @@ lol.duckdb  (table: games)            ~120k rows, one DuckDB file (gitignored)
         │  pipeline/build_*.py
         ▼
 data/*.json                           three small datasets the page embeds
-        │  (injected into meta_market.html)
+        │  (injected into index.html)
         ▼
-meta_market.html                      the shipped, self-contained artifact
+index.html                            the shipped, self-contained artifact
 ```
 
 **The pipeline (`pipeline/`):**
@@ -75,7 +75,7 @@ python pipeline/load_lol.py
 python pipeline/build_meta_market.py
 python pipeline/build_player_factor.py
 python pipeline/build_synergies.py
-# the three data/*.json are regenerated; open meta_market.html to view the result
+# the three data/*.json are regenerated; open index.html to view the result
 ```
 
 ---
